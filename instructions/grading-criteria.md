@@ -131,7 +131,6 @@ If something is not banned or similar to something that is banned, it is probabl
 ### Delivery - Pull Request
 * The PR MUST be received by the project deadline (but a late project is better than no project)
 * The PR MUST be from the branch "final-project", named EXACTLY that. (I suggest developing in a different branch first)
-* The PR MUST be to the master branch of your final-project repo on github
 * The PR MUST have an appropriate .gitignore file
 * The PR MUST contain a useful and appropriate README.md (A high-level overview of what the app does)
 * The PR MUST contain source code to recreate and modify the built version

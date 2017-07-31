@@ -14,8 +14,7 @@ At the core level, this is a web-based single page application that:
 * Items change status based on user actions rather than being set directly
 (See 'App Features' in grading criteria for a full list)
 
-Which is all very vague.  That's because this is all very generic functionality (CRUD).
-
+Which is all very vague.  That's because this is all very generic functionality (CRUD)
 Along with writing the front-end code, you will be choosing a specific use for this.
 
 Examples (please be creative!):
