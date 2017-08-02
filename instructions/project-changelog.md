@@ -1,6 +1,8 @@
 # Project Changelog
 
 A list of things that have changed in the project assignments/description. (Because even assignments can have bugs)
+## v1.2.3 Tue Aug 1
+* Cleaned up formatting of API - no content changes
 
 ## v1.2  Mon Jul 31
 * Fixed accidentally replaced README
