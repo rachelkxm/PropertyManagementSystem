@@ -1,6 +1,7 @@
 {
-  "name": "dummy",
+  "name": "property inventory management system",
   "version": "0.1.0",
+  "author" : "xiangminkong<kong.xia@husky.neu.edu>"
   "private": true,
   "dependencies": {
     "react": "^15.6.1",
