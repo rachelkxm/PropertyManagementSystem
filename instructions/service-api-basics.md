@@ -49,39 +49,58 @@ A topic holds JSON, so it can be deeply nested or just a single value
 I will provide a fully(ish) documented API, but here is a high-level view of what the API can/can't do
 
 To get the full API: (no auth required)
+
 ```GET /```
 
 To create a user  (no auth required)
+
 ```POST /user/{appkey}/{username}```      {username, password}
 
 To login: (no auth required)
+
 ```POST /user/{appkey}/{username}/session```  {username, password}
 
 To get list of users: (no auth required)
+
 ```GET /users/{appkey}```
 
 To confirm a user is logged in (or confirm username is/is not available) (no auth required)
+
 ```GET /users/{appkey}/{username}``` 
 
 To logout (must be admin or named user)
+
 ```DELETE /users/{appkey}/{username}/session```
+
+To get personal data for a user: (must be an admin or named user)
+
+```GET /user/{appkey}/{username}/profile```
 
 To save data for a user: (must be an admin or named user)
 
 ```PUT /user/{appkey}/{username}/profile``` { profile: }
+
 profile values are JSON, so they can be as complex or as simple as you want
+
 Note - entire value will be overwritten!
 
 To change if user is admin: ( must be admin, can't remove your own admin flag)
+
 ```PUT /user/{appkey}/{username}/admin```  
+
 ```DELETE /user/{appkey}/{username}/admin```
 
 Data for the app: (requires auth)
 
 ```GET /inventory/{appkey}```   (gives topics)
+
 ```GET /inventory/{appkey}/{topic}```   (returns topic data)
+
 ```POST /inventory/{appkey}/{topic}```  (only if topic is new) 
+
 ```PUT /inventory/{appkey}/{topic}```   (only for existing topic)
+
 ```DELETE /inventory/{appkey}/{topic}```  
-topic values are JSON, so they can be as complex or as simple as you want
+
+Topic values are JSON, so they can be as complex or as simple as you want.
 A topic is completely overwritten on a POST/PUT.

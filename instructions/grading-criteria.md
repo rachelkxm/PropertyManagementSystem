@@ -64,13 +64,19 @@ If something is not banned or similar to something that is banned, it is probabl
 * The app MUST be a single page application from static html, js, and css files
 * The app MUST use React + React Dom
 * The app must NOT use a boilerplate/project template other than create-react-app
-* The app must NOT use any 3rd party state management library
+* The app must NOT use any 3rd party state management library 
+    * No Redux, No Flux, etc
 * The app must NOT use any 3rd party React components 
+    * No Bootstrap, No Foundation, etc
 * The app must NOT use any other 3rd party JS library EXCEPT polyfills
+    * No lodash, No underscore, No moment.js, etc
+    * No Firebase, No oAuth, etc.
 * The app must NOT use any other 3rd party HTML library
 * The app must NOT use any 3rd party CSS libraries (Less and SASS are fine)
 * The app must NOT use any 3rd party service calls
+    * No Firebase, No google APIs, etc
 * The app MAY use 3rd party icons and images
+    * FontAwesome, etc okay IF you follow the other rules 
 * The app MUST have permission to use those icons/images (see Delivery - README.md)
 
 ## App Completeness and Quality

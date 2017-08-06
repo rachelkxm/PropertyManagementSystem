@@ -1,6 +1,12 @@
 # Project Changelog
 
 A list of things that have changed in the project assignments/description. (Because even assignments can have bugs)
+## v1.3.0 Sat Aug 5
+* Really cleaned up formatting of API...hopefully
+* Added GET /user/{appkey}/{username}/profile to api
+* Added several entries to the FAQ
+* Added several documents 
+
 ## v1.2.3 Tue Aug 1
 * Cleaned up formatting of API - no content changes
 
