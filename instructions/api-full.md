@@ -85,7 +85,8 @@ fetch('http://sea-info6250-crud.herokuapp.com/', {
   headers: new Headers({ 
     'Content-Type': 'application/json',
     'x-user-token': loginToken  // Or whereever I stored it
-  })
+  }),
+  body: JSON.stringify({ toStore: your_topic_data_here })
 })
 .then( (response) => { 
   // Etc, etc, as above
@@ -105,7 +106,7 @@ To get the full API: (no auth required)
 
 ```GET /```
 
-To test to see if your x-user-token header is seen:
+To test to see if your x-user-token header is seen and general connectivity
 
 ```(any) /test```  You can GET, POST, whatever
 
@@ -145,7 +146,7 @@ Data for the app: (requires you be logged in)
 
 ```PUT /topics/{appkey}/{topic}```   (only for existing topic)  The value of the 'toStore' key of your body object will replace any previous value(s)
 
-```DELETE /topics/{appkey}/{topic}```  
+```DELETE /topics/{appkey}/{topic}``` Depending on your use of topics, you may not use this at all (you can set a topic to empty data instead of deleting it if you will reuse it.  That reduces any PUT vs POST effort.)
 
 Topic values are JSON, so they can be as complex or as simple as you want.
 A topic is completely overwritten on a POST/PUT.

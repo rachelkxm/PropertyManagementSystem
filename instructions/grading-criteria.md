@@ -90,7 +90,7 @@ If something is not banned or similar to something that is banned, it is probabl
 * The app must NOT leave a user confused - you MUST indicate some response to user actions 
 
 ## Code Quality and Standards
-* The js/jsx files MUST pass linting using the provided .eslintrc without errors or warnings
+* The js/jsx files MUST pass linting using the built in linting rules without errors or warnings
 * The code MUST be consistent and avoid bad practices
 
 ### Code Quality and Standards - Security
