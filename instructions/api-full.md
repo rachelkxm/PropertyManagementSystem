@@ -4,17 +4,21 @@ This document covers the inputs/outputs and status of the service endpoints.
 
 See the service-basic-api document for more explanation.
 
-* All entries are within the scope of one app unless marked otherwise (e.g. "Create a User" means "Create a User for an App" )
-* Some entries require a valid session x-user-token for a user of that app
-* Some entries require a valid session x-user-token from an admin user of that app
-* All entries attempt to return JSON, even in the case of errors
+* All entries with an `appkey` in the url are within the scope of one app (e.g. "Create a User" means "Create a User for an App" )
+* Some entries require a valid session x-user-token header
+* All entries attempt to return JSON, even in the case of errors 
 
 All services are currently at http://sea-info6250-crud.herokuapp.com/
 
-It is highly recommended work with your browser console open and have "Log XMLHttpRequests" turned on.
-You can send sample fetch() calls from the console to validate your expectations.
+Note: the service winds down if no one has called it recently, so the first call it may take several seconds to complete.  Later calls should be fast until it goes to sleep again (which it won't do while you're actively using it).
 
-## Example simple service call
+* It is highly recommended work with your browser console open and have "Log XMLHttpRequests" turned on.
+* You can send sample fetch() calls from the console to validate your expectations.
+
+## Examples
+
+### Example simple service call
+
 ```javascript
 // this is the 'GET /' example
 fetch('http://sea-info6250-crud.herokuapp.com/test', {
@@ -37,7 +41,8 @@ fetch('http://sea-info6250-crud.herokuapp.com/test', {
 });
 ```
 
-## Example call to log in (requires that a user was created!)
+### Example call to log in (requires that a user was created!)
+
 ```javascript
 // this is the 'POST /users/:appkey/:username/session' example
 // this is after I created an account 'thehat'
@@ -77,7 +82,7 @@ fetch('http://sea-info6250-crud.herokuapp.com/users/myapp/thehat/session', {
 });
 ```
 
-## Example more involved service call (uses a token from logging in)
+### Example more involved service call (uses a token from logging in)
 ```javascript
 // this is the 'PUT /topics/:appkey/:topic ' example
 fetch('http://sea-info6250-crud.herokuapp.com/', {
@@ -100,53 +105,139 @@ fetch('http://sea-info6250-crud.herokuapp.com/', {
   console.warn('Help! I need an adult!', error);
 });
 ```
-## (Work In Progress) - Documenting the API
+### Utility Endpoints
 
-To get the full API: (no auth required)
+#### Get the full API
 
 ```GET /```
+##### Authorization
+No x-user-token header required
+##### Parameters to Send
+None
 
-To test to see if your x-user-token header is seen and general connectivity
+#### A test to see if your x-user-token header is seen and general connectivity
+```(any) /test```
+##### Notes
+* You can GET, POST, whatever
+* Has no use in application, used to try out calls only
+* Returns a bit of info about the call
+##### Authorization
+x-user-token optional
+##### Parameters to Send
+None
 
-```(any) /test```  You can GET, POST, whatever
+### User-related Endpoints
+#### To get a list of usernames that have been created
+``` GET /users/{appkey}```
+##### Authorization
+No x-user-token header required
+##### Parameters to Send
+None
 
-To confirm a user is logged in (or confirm username is/is not available) (no auth required)
-
+#### Is a username available?  Is this user logged in?
 ```GET /users/{appkey}/{username}``` 
+##### Authorization
+No x-user-token header required
+##### Parameters to Send
+None
 
-To logout (must be logged in as admin or named user)
+#### To create a user account (register)
+``` POST /users/{appkey}/{username}```
+##### Authorization
+No x-user-token header required
+##### Parameters to Send
+Property | Example | Description
+--------------------------------
+username | Jane | Should be limited to characters that work easily in urls
+password | batteryhorsestaplecorrect | No particular restrictions
 
+#### To log a user in (create a session)
+```POST /users/{appkey}/{username}/session```
+##### Authorization
+No x-user-token header required
+##### Parameters to Send
+Property | Example | Description
+--------------------------------
+username | Jane | Should be limited to characters that work easily in urls
+password | batteryhorsestaplecorrect | No particular restrictions
+
+#### To log a user out (destroy session)
 ```DELETE /users/{appkey}/{username}/session```
+##### Authorization
+An `x-user-token` header valid for this user (or an admin) is required
+##### Parameters to Send
+None
 
-To get personal data for a user: (must be logged in as an admin or named user)
-
+#### Get personal data for a user (profile)
 ```GET /users/{appkey}/{username}/profile```
+##### Authorization
+An `x-user-token` header valid for this user (or an admin) is required
+##### Parameters to Send
+None
 
-To save data for a user: (must be logged in as an admin or named user)
+#### Save personal data for a user (profile) 
+```PUT /users/{appkey}/{username}/profile``` 
+##### Authorization
+An `x-user-token` header valid for this user (or an admin) is required
+##### Parameters to Send
+Property | Example | Description
+--------------------------------
+toStore | { "some": "data" } | **required** The value in toStore will be stored in the profile.  And and all previous profile data stored for this user is overwritten.  The value of toStore can be anything JSON can hold.  For example, it can be a simple object, or an array of objects that holds arrays and objects.
 
-```PUT /users/{appkey}/{username}/profile``` The value of the 'toStore' key of your body object will replace any previous value(s)
-
-profile values are JS objects, so they can be as complex or as simple as you want
-
-Note - entire value will be overwritten!
-
-To change if user is admin: ( must be admin, can't remove your own admin flag)
-
+#### Make a user an admin
 ```PUT /users/{appkey}/{username}/admin```  
+##### Authorization
+An `x-user-token` header valid for an existing admin is required
+##### Parameters to Send
+None
 
+#### Remove admin permissions from a user
 ```DELETE /users/{appkey}/{username}/admin```
+##### Authorization
+An `x-user-token` header valid for an admin is required.  You cannot remove your own admin flag.
+##### Parameters to Send
+None
 
-Data for the app: (requires you be logged in)
+### Topic Endpoints
+Each appkey can store one or more "topics".  Each topic has a name and a value that is any JSON-able value, so it can be a simple string or a a deeply nested array/object.
 
-```GET /topics/{appkey}```   (gives topics)
+Like 'appkey', this use of the word 'topic' is a concept used in this API and is not a general industry concept.
 
-```GET /topics/{appkey}/{topic}```   (returns topic data)
+In a "real" application, it would be strange to let _any_ user Create/Update/Delete from the collective data of the app with no restrictions.   Putting such restrictions in the front end JS code does nothing to prevent someone from issues service calls outside of the JS, just as we can put test calls in our browser console.  Which means that normally the service would have more restrictions on who can do what, which the front-end code would need to adapt to.
 
-```POST /topics/{appkey}/{topic}```  (only if topic is new) The value of the 'toStore' key of your body object will replace any previous value(s)
+#### Get a list of different topic names that exist for the app
+```GET /topics/{appkey}```
+##### Authorization
+An `x-user-token` header valid for any user is required.
+##### Parameters to Send
+None
 
+#### Create a **new** topic
+```POST /topics/{appkey}/{topic}```
+(only if topic is new) The value of the 'toStore' key of your body object will replace any previous value(s)
+##### Authorization
+An `x-user-token` header valid for any user is required.
+##### Parameters to Send
+Property | Example | Description
+--------------------------------
+toStore | { "some": "data" } | **required** The value in toStore will be stored as the topic.  The value of toStore can be anything JSON can hold.  For example, it can be a simple object, or an array of objects that holds arrays and objects.
+
+#### Update an existing topic
 ```PUT /topics/{appkey}/{topic}```   (only for existing topic)  The value of the 'toStore' key of your body object will replace any previous value(s)
+##### Authorization
+An `x-user-token` header valid for this user (or an admin) is required
+##### Parameters to Send
+Property | Example | Description
+--------------------------------
+toStore | { "some": "data" } | **required** The value in toStore will be stored as the topic.  The value of toStore can be anything JSON can hold.  For example, it can be a simple object, or an array of objects that holds arrays and objects.  **ANY** existing data in this topic is overwritten, so be sure to send the entire collection of data you want to have, not just the fields you are updating.
 
-```DELETE /topics/{appkey}/{topic}``` Depending on your use of topics, you may not use this at all (you can set a topic to empty data instead of deleting it if you will reuse it.  That reduces any PUT vs POST effort.)
+#### Remove an existing topic
+```DELETE /topics/{appkey}/{topic}``` 
 
-Topic values are JSON, so they can be as complex or as simple as you want.
-A topic is completely overwritten on a POST/PUT.
+Depending on your use of topics, you may not use this at all, because you have set topics that do not change existance during the use of your application.
+
+You can update an existing topic to still exist but hold empty data (using the PUT call above) instead of deleting it if you will reuse it.  That reduces any PUT vs POST effort.
+##### Authorization
+An `x-user-token` header valid for this user (or an admin) is required
+##### Parameters to Send
+None
