@@ -1,7 +1,7 @@
 {
-  "name": "property inventory management system",
+  "name": "propertyinventorymanagementsystem",
   "version": "0.1.0",
-  "author" : "xiangminkong<kong.xia@husky.neu.edu>"
+  "author" : "xiangminkong<kong.xia@husky.neu.edu>",
   "private": true,
   "dependencies": {
     "react": "^15.6.1",
