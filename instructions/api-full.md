@@ -147,7 +147,7 @@ None
 No x-user-token header required
 ##### Parameters to Send
 Property | Example | Description
---------------------------------
+---------|---------|------------
 username | Jane | Should be limited to characters that work easily in urls
 password | batteryhorsestaplecorrect | No particular restrictions
 
@@ -157,7 +157,7 @@ password | batteryhorsestaplecorrect | No particular restrictions
 No x-user-token header required
 ##### Parameters to Send
 Property | Example | Description
---------------------------------
+---------|---------|------------
 username | Jane | Should be limited to characters that work easily in urls
 password | batteryhorsestaplecorrect | No particular restrictions
 
@@ -181,7 +181,7 @@ None
 An `x-user-token` header valid for this user (or an admin) is required
 ##### Parameters to Send
 Property | Example | Description
---------------------------------
+---------|---------|------------
 toStore | { "some": "data" } | **required** The value in toStore will be stored in the profile.  And and all previous profile data stored for this user is overwritten.  The value of toStore can be anything JSON can hold.  For example, it can be a simple object, or an array of objects that holds arrays and objects.
 
 #### Make a user an admin
@@ -219,7 +219,7 @@ None
 An `x-user-token` header valid for any user is required.
 ##### Parameters to Send
 Property | Example | Description
---------------------------------
+---------|---------|------------
 toStore | { "some": "data" } | **required** The value in toStore will be stored as the topic.  The value of toStore can be anything JSON can hold.  For example, it can be a simple object, or an array of objects that holds arrays and objects.
 
 #### Update an existing topic
@@ -228,6 +228,7 @@ toStore | { "some": "data" } | **required** The value in toStore will be stored 
 An `x-user-token` header valid for this user (or an admin) is required
 ##### Parameters to Send
 Property | Example | Description
+---------|---------|------------
 --------------------------------
 toStore | { "some": "data" } | **required** The value in toStore will be stored as the topic.  The value of toStore can be anything JSON can hold.  For example, it can be a simple object, or an array of objects that holds arrays and objects.  **ANY** existing data in this topic is overwritten, so be sure to send the entire collection of data you want to have, not just the fields you are updating.
 
