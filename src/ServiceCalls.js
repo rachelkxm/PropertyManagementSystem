@@ -21,9 +21,7 @@ const commonFetch = (url, options={})=>{
       return response.json();
     }
      return response.json().then((error) => Promise.reject(error));
-  }).catch((error)=>{
-    console.warn(error);
-  });
+  }).catch((error)=> error);
 };
 
 export const login = ({userName, password}) =>{
@@ -36,11 +34,11 @@ export const login = ({userName, password}) =>{
 };
 
 export const register = ({userName, profile}) =>{
-  // const url = `${host}/users/${myapp}/${userName}`;
-  const url = `${host}/users/${myapp}/${userName}/profile`;
+  const url = `${host}/users/${myapp}/${userName}`;
+  // const url = `${host}/users/${myapp}/${userName}/profile`;
   return commonFetch(url, {
     method: 'POST',
     headers: new Headers({ 'Content-Type': 'application/json' }),
-    body: JSON.stringify( { toStore: profile })
+    body: JSON.stringify( { password: profile.password })
   });
 };
