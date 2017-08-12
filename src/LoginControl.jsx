@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {login, register} from './ServiceCalls';
 import './Login.css';
 import './Register.css';
 class LoginForm extends React.Component{
@@ -9,10 +10,14 @@ class LoginForm extends React.Component{
     this.handlePasswordInput = this.handlePasswordInput.bind(this);
   }
   handleSubmit(){
-      //fetch();
-      const validUser = true;
-      this.props.onSubmit(validUser);
-      this.props.onLoginStatusChange(true,this.props.userName);
+      login(this.props.userName, this.props.password)
+      .then((response)=>{
+          //not sure how to handle wronge password or userName case
+          const validUser = true;
+          this.props.onSubmit(validUser);
+          this.props.onLoginStatusChange(validUser,this.props.userName);
+      })
+      .catch((error) => {console.warn('wrong user name or password')});
   }
   handleUserNameInput(e){
      this.props.onUserNameInput(e.target.value);
