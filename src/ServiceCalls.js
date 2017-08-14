@@ -66,3 +66,33 @@ export const getProfile = ({userName, token}) =>{
     headers: { 'Content-Type': 'application/json' , 'x-user-token' : token}
   });
 };
+export const getProperties = ({token}) => {
+  const url = `${host}/topics/${myapp}`;
+  return commonFetch(url, {
+    method: 'GET',
+    headers: { 'Content-Type': 'application/json' , 'x-user-token' : token}
+  });
+}
+export const postAProperty = ({toStore, token}) => {
+  const url = `${host}/topics/${myapp}/property`;
+  return commonFetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' , 'x-user-token' : token},
+    body: JSON.stringify( { toStore: toStore })
+  });
+}
+export const updateAProperty = ({toStore, token}) => {
+  const url = `${host}/topics/${myapp}/property`;
+  return commonFetch(url, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' , 'x-user-token' : token},
+    body: JSON.stringify( { toStore: toStore })
+  });
+}
+export const removeAProperty = ({token}) => {
+  const url = `${host}/topics/${myapp}/property`;
+  return commonFetch(url, {
+    method: 'DELETE',
+    headers: { 'Content-Type': 'application/json' , 'x-user-token' : token}
+  });
+}

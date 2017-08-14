@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropertyField from './PropertyField';
 import './Inventory.css';
 class PropertyCategoryRow extends React.Component {
   render() {
@@ -98,7 +99,7 @@ class SearchBar extends React.Component {
 class AddButton extends React.Component {
     render(){
         return(
-           <button className="addBtn">Post a new Property</button>
+           <button className="addBtn" onClick={this.props.onAddButton}>Post a new Property</button>
         );
     }
 }
@@ -111,10 +112,15 @@ class InventoryList extends React.Component{
           selectOnSale : false,
           selectPending : false,
           selectSold : false,
-          selected :'All'
+          selected :'All',
+          showField : false
       }
       this.handleFilterInputChange = this.handleFilterInputChange.bind(this);
       this.handleSelectStatusChange = this.handleSelectStatusChange.bind(this);
+      this.handleAddButtonClick = this.handleAddButtonClick.bind(this);
+    }
+    handleAddButtonClick(){
+       this.setState({showField : true});
     }
     handleFilterInputChange(filterText){
        this.setState({
@@ -153,7 +159,8 @@ class InventoryList extends React.Component{
          output = <div>
                      <SearchBar filterText={this.state.filterText} onFilterInputChange={this.handleFilterInputChange} onSelectStatusChange={this.handleSelectStatusChange}/>
                      <PropertyTable filterText={this.state.filterText} selected={this.state.selected} properties={properties}/>;
-                     <AddButton/>
+                     <AddButton onAddButton={this.handleAddButtonClick}/>
+                     <PropertyField showField={this.state.showField}/>
                   </div>
       }
        return(
