@@ -232,6 +232,13 @@ Property | Example | Description
 --------------------------------
 toStore | { "some": "data" } | **required** The value in toStore will be stored as the topic.  The value of toStore can be anything JSON can hold.  For example, it can be a simple object, or an array of objects that holds arrays and objects.  **ANY** existing data in this topic is overwritten, so be sure to send the entire collection of data you want to have, not just the fields you are updating.
 
+#### Get the value stored for an existing topic
+```GET /topics/{appkey}/{topic}```
+##### Authorization
+An `x-user-token` header valid for any user is required.
+##### Parameters to Send
+None
+
 #### Remove an existing topic
 ```DELETE /topics/{appkey}/{topic}``` 
 
