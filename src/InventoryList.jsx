@@ -33,7 +33,7 @@ class PropertyTable extends React.Component {
           property.sqrt.indexOf(this.props.filterText) === -1 && property.zipCode.indexOf(this.props.filterText) === -1) {
         return;
       }
-      if(this.props.selected != 'All' && property.status != this.props.selected) return;
+      if(this.props.selected !== 'All' && property.status !== this.props.selected) return;
       if (property.category !== lastCategory) {
         rows.push(<PropertyCategoryRow category={property.category} key={property.category} />);
       }

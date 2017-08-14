@@ -6,21 +6,22 @@ class InventoryManagement extends React.Component {
     constructor(props) {
       super(props);
       this.state = {
-        isLogin: false
+        isLogin : false,
+        token : ''
       };
       this.handleLogin = this.handleLogin.bind(this);
     }
-    handleLogin(isLogin) {
+    handleLogin(isLogin, token) {
       this.setState({
-        isLogin: isLogin
+        isLogin : isLogin,
+        token : token
       });
     }
    render() {
     return (
       <div>
         <LoginControl onLoginButton={this.handleLogin}/>
-        <Account isLogin={this.state.isLogin}/>
-        <InventoryList isLogin={this.state.isLogin}/>
+        <InventoryList isLogin={this.state.isLogin} token={this.state.token}/>
       </div>
     );
   }

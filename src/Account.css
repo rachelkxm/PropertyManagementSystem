@@ -1,0 +1,9 @@
+.profile{
+  position: absolute;
+  right: 5%;
+  top: 220px;
+  width: 300px;
+  padding: 10px;
+  text-align: center;
+  color: #5a5c51;
+}
