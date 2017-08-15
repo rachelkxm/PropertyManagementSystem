@@ -1,67 +1,10 @@
 import React, { Component } from 'react';
+import {topics} from './constants'
+import {getProperties, postProperty, updateProperty, getTopics} from './ServiceCalls';
 import PropertyField from './PropertyField';
+import PropertyTable from './PropertyTable';
 import './Inventory.css';
-class PropertyCategoryRow extends React.Component {
-  render() {
-    return (<tr className="category"><th colSpan="10">{this.props.category}</th></tr>);
-  }
-}
-class PropertyRow extends React.Component {
-  render() {
-    return (
-      <tr>
-        <td>{this.props.property.zipCode}</td>
-        <td>{this.props.property.address}</td>
-        <td>{this.props.property.location}</td>
-        <td>{this.props.property.price}</td>
-        <td>{this.props.property.bed}</td>
-        <td>{this.props.property.bath}</td>
-        <td>{this.props.property.sqrt}</td>
-        <td>{this.props.property.status}</td>
-        <td>{this.props.property.edit}</td>
-        <td>{this.props.property.delete}</td>
-      </tr>
-    );
-  }
-}
-class PropertyTable extends React.Component {
-  render() {
-    var rows = [];
-    var lastCategory = null;
-    this.props.properties.forEach((property) => {
-      if (property.location.indexOf(this.props.filterText) === -1 && property.price.indexOf(this.props.filterText) === -1 &&
-          property.bath.indexOf(this.props.filterText) === -1 && property.bed.indexOf(this.props.filterText) === -1 &&
-          property.sqrt.indexOf(this.props.filterText) === -1 && property.zipCode.indexOf(this.props.filterText) === -1) {
-        return;
-      }
-      if(this.props.selected !== 'All' && property.status !== this.props.selected) return;
-      if (property.category !== lastCategory) {
-        rows.push(<PropertyCategoryRow category={property.category} key={property.category} />);
-      }
-      rows.push(<PropertyRow property={property} key={property.address} />);
-      lastCategory = property.category;
-    });
-    return (
-      <table>
-        <thead>
-          <tr>
-            <th>Zip Code</th>
-            <th>Address</th>
-            <th>Location</th>
-            <th>Price</th>
-            <th>Bed</th>
-            <th>Bath</th>
-            <th>sq.ft</th>
-            <th>status</th>
-            <th>Edit</th>
-            <th>Delete</th>
-          </tr>
-        </thead>
-        <tbody>{rows}</tbody>
-      </table>
-    );
-  }
-}
+
 class SearchBar extends React.Component {
   constructor(props) {
     super(props);
@@ -106,6 +49,7 @@ class AddButton extends React.Component {
 class InventoryList extends React.Component{
     constructor(props) {
       super(props);
+      this.properties = [];
       this.state = {
           filterText : '',
           selectAll : true,
@@ -113,14 +57,43 @@ class InventoryList extends React.Component{
           selectPending : false,
           selectSold : false,
           selected :'All',
-          showField : false
+          showField : false,
+          propertyType : 'house',
+          listingStatus : 'On Sale',
+          zipcode : '',
+          address : '',
+          location : '',
+          price : '',
+          bed : '',
+          bath : '',
+          sqft : '',
+          propertyUpdate : false,
+          propertyLoaded : false,
+          house : true,
+          condo : false,
+          apartment : false,
+          townhouse : false,
+          onsale : true,
+          pending : false,
+          sold : false,
+          outofmarket : false
       }
       this.handleFilterInputChange = this.handleFilterInputChange.bind(this);
       this.handleSelectStatusChange = this.handleSelectStatusChange.bind(this);
       this.handleAddButtonClick = this.handleAddButtonClick.bind(this);
+      this.handlePropertyTypeChange = this.handlePropertyTypeChange.bind(this);
+      this.handleListingStatusChange = this.handleListingStatusChange.bind(this);
+      this.handleZipcodeInput = this.handleZipcodeInput.bind(this);
+      this.handleAddressInput = this.handleAddressInput.bind(this);
+      this.handleLocationInput = this.handleLocationInput.bind(this);
+      this.handlePriceInput = this.handlePriceInput.bind(this);
+      this.handleBedInput = this.handleBedInput.bind(this);
+      this.handleBathInput = this.handleBathInput.bind(this);
+      this.handleSqftInput = this.handleSqftInput.bind(this);
+      this.handleDoPost = this.handleDoPost.bind(this);
     }
     handleAddButtonClick(){
-       this.setState({showField : true});
+       this.setState((preState)=>({showField : !preState.showField}));
     }
     handleFilterInputChange(filterText){
        this.setState({
@@ -140,27 +113,122 @@ class InventoryList extends React.Component{
           selected : selectedStatus
        });
     }
+    handlePropertyTypeChange(propertyType){
+       this.setState({propertyType : propertyType});
+       if(propertyType === 'house'){
+           this.setState({house: true, condo: false, apartment : false, townhouse : false});
+       }else if(propertyType === 'condo'){
+           this.setState({house: false, condo: true, apartment : false, townhouse : false});
+       }else if(propertyType === 'apartment'){
+          this.setState({house: false, condo: false, apartment : true, townhouse : false});
+       }else if(propertyType === 'townhouse'){
+          this.setState({house: false, condo: false, apartment : false, townhouse : true});
+       }
+    }
+    handleListingStatusChange(listingStatus){
+
+      if(listingStatus === 'onsale'){
+          this.setState({onsale: true, pending: false, sold : false, outofmarket : false});
+          this.setState({listingStatus : 'On Sale'});
+      }else if(listingStatus === 'pending'){
+          this.setState({onsale: false, pending: true, sold : false, outofmarket : false});
+          this.setState({listingStatus : 'Pending'});
+      }else if(listingStatus === 'sold'){
+         this.setState({onsale: false, pending: false, sold : true, outofmarket : false});
+         this.setState({listingStatus : 'Sold'});
+      }else if(listingStatus === 'outofmarket'){
+         this.setState({onsale: false, pending: false, sold : false, outofmarket : true});
+         this.setState({listingStatus : 'Out of Market'});
+      }
+    }
+    handleZipcodeInput(zipcode){
+       this.setState({zipcode : zipcode});
+    }
+    handleAddressInput(adress){
+       this.setState({address : adress});
+    }
+    handleLocationInput(location){
+       this.setState({location : location});
+    }
+    handlePriceInput(price){
+       this.setState({price : price});
+    }
+    handleBedInput(bed){
+       this.setState({bed : bed});
+    }
+    handleBathInput(bath){
+       this.setState({bath : bath});
+    }
+    handleSqftInput(sqft){
+       this.setState({sqft : sqft});
+    }
+    handleDoPost(){
+       this.setState({propertyUpdate : true});
+       /*getTopics()
+       .then((response) => {
+
+       })
+       .catch((error)=>{
+          console.log(error);
+       });*/
+      // postProperty({'topic' : topics[0], 'properties' : this.properties, 'token' : this.props.token});
+      // updateProperty({'topic' : topics[0], 'properties' : this.properties, 'token' : this.props.token});
+    }
     render(){
       //fetch()
-      const properties = [
-        {zipCode: '98109', address:'906 Dexter Ave', location:'Seattle',price:'500,000', bed:'2',bath:'2',sqrt:'1500', status:'On Sale',category:'house'},
-        {zipCode: '98109', address:'910 Dexter Ave', location:'Queen',price:'500,000', bed:'1',bath:'2',sqrt:'1000', status:'Pending',category:'house'},
-        {zipCode: '98109', address:'907 Dexter Ave', location:'North Gate',price:'500,000', bed:'2',bath:'2',sqrt:'1500', status:'Sold',category:'apartment'},
-        {zipCode: '98109', address:'908 Dexter Ave', location:'Seattle',price:'500,000', bed:'3',bath:'2',sqrt:'2500', status:'Pending',category:'condo'},
-        {zipCode: '98109', address:'909 Dexter Ave', location:'Seattle',price:'500,000', bed:'2',bath:'2',sqrt:'3500', status:'On Sale',category:'townhouse'}
+      getProperties({'topic' : topics[0], 'token' : this.props.token})
+      .then((response)=>{
+         this.properties = response.details;
+         this.setState({propertyLoaded : true});
+         console.log(this.properties);
+      })
+      .catch((error)=>console.warn(error));
 
-      ];
-      properties.forEach(function(property){
+      if(this.state.propertyUpdate){
+          this.properties.push({zipCode : this.state.zipcode,
+                           address : this.state.address,
+                           location : this.state.location,
+                           price : this.state.price,
+                           bed : this.state.bed,
+                           bath : this.state.bath,
+                           sqrt : this.state.sqrt,
+                           status : this.state.listingStatus,
+                           category : this.state.propertyType
+                           });
+          //this.setState({propertyUpdate : false});
+      }
+
+      /*localProperty.forEach(function(property){
           property.edit = <button className="cellBtn">Edit</button>
           property.delete = <button className="cellBtn">Delete</button>
-      });
+      });*/
       let output = <div></div>;
       if(this.props.isLogin){
          output = <div>
                      <SearchBar filterText={this.state.filterText} onFilterInputChange={this.handleFilterInputChange} onSelectStatusChange={this.handleSelectStatusChange}/>
-                     <PropertyTable filterText={this.state.filterText} selected={this.state.selected} properties={properties}/>;
+                     <PropertyTable updateTable={this.state.propertyLoaded} filterText={this.state.filterText} selected={this.state.selected} properties={this.properties}/>;
                      <AddButton onAddButton={this.handleAddButtonClick}/>
-                     <PropertyField showField={this.state.showField}/>
+                     <PropertyField showField={this.state.showField}
+                                    propertyType={{house : this.state.house, condo : this.state.condo, apartment : this.state.apartment, townHouse : this.state.townhouse}}
+                                    listingStatus={{onsale : this.state.onsale, pending : this.state.pending, sold : this.state.sold, outofmarket : this.state.outofmarket}}
+                                    zipcode={this.state.zipcode}
+                                    address={this.state.address}
+                                    locaton={this.state.address}
+                                    price={this.state.price}
+                                    bed={this.state.bed}
+                                    bath={this.state.bath}
+                                    sqft={this.state.sqft}
+                                    onPropertyTypeChange={this.handlePropertyTypeChange}
+                                    onListingStatusChange={this.handleListingStatusChange}
+                                    onZipcodeChange={this.handleZipcodeInput}
+                                    onAddressChange={this.handleAddressInput}
+                                    onLocationChange={this.handleLocationInput}
+                                    onPriceChange={this.handlePriceInput}
+                                    onBedChange={this.handleBedInput}
+                                    onBathChange={this.handleBathInput}
+                                    onSqftChange={this.handleSqftInput}
+                                    onDoPost={this.handleDoPost}
+                                    />
                   </div>
       }
        return(

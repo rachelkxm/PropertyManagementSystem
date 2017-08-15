@@ -61,7 +61,7 @@ class ProfileDetail extends React.Component{
     render(){
        if(this.props.showDetail){
            return(
-             <div>
+             <div className="myProfile">
                <h2>My Profile</h2>
                <div className="form">
                  <div className="container">
