@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import InventoryList from './InventoryList';
 import LoginControl from './LoginControl';
 import Account from './Account';
+import {topics} from './constants';
+import {getProperties} from './ServiceCalls';
 class InventoryManagement extends React.Component {
     constructor(props) {
       super(props);
@@ -16,6 +18,7 @@ class InventoryManagement extends React.Component {
         isLogin : isLogin,
         token : token
       });
+
     }
    render() {
     return (

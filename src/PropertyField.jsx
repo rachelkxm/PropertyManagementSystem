@@ -13,6 +13,7 @@ class PropertyField extends React.Component{
       this.handleBedChange = this.handleBedChange.bind(this);
       this.handleBathChange = this.handleBathChange.bind(this);
       this.handleSqftChange = this.handleSqftChange.bind(this);
+      this.handleCancel = this.handleCancel.bind(this);
     }
     handleDoPost(){
        this.props.onDoPost();
@@ -43,6 +44,9 @@ class PropertyField extends React.Component{
     }
     handleSqftChange(e){
         this.props.onSqftChange(e.target.value);
+    }
+    handleCancel(){
+        this.props.onCancel();
     }
     render(){
        if(!this.props.showField){
@@ -79,6 +83,7 @@ class PropertyField extends React.Component{
             <label><b>sq.ft</b></label>
             <input type="text" placeholder="Enter sq.ft" name="sqft" value={this.props.sqft} onChange={this.handleSqftChange}/>
             <button onClick={this.handleDoPost}>Do Post</button>
+            <button onClick={this.handleCancel}>Cancel</button>
           </div>);
 
     };

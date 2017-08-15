@@ -5,10 +5,21 @@ class PropertyCategoryRow extends React.Component {
   }
 }
 class PropertyRow extends React.Component {
+  constructor(props){
+     super(props);
+     this.onEdit = this.onEdit.bind(this);
+     this.onDelete = this.onDelete.bind(this);
+  }
+  onEdit(){
+     this.props.onEditButton(this.props.property);
+  }
+  onDelete(){
+     this.props.onDeleteButton(this.props.property);
+  }
   render() {
     return (
       <tr>
-        <td>{this.props.property.zipCode}</td>
+        <td>{this.props.property.zipcode}</td>
         <td>{this.props.property.address}</td>
         <td>{this.props.property.location}</td>
         <td>{this.props.property.price}</td>
@@ -16,8 +27,8 @@ class PropertyRow extends React.Component {
         <td>{this.props.property.bath}</td>
         <td>{this.props.property.sqrt}</td>
         <td>{this.props.property.status}</td>
-        <td>{this.props.property.edit}</td>
-        <td>{this.props.property.delete}</td>
+        <td>{<button className="cellBtn" onClick={this.onEdit}>Edit</button>}</td>
+        <td>{<button className="cellBtn" onClick={this.onDelete}>Delete</button>}</td>
       </tr>
     );
   }
@@ -47,7 +58,7 @@ class PropertyTable extends React.Component {
         if (property.category !== lastCategory) {
           rows.push(<PropertyCategoryRow category={property.category} key={property.category} />);
         }
-        rows.push(<PropertyRow property={property} key={property.address} />);
+        rows.push(<PropertyRow property={property} onEditButton={this.props.onEditButton} onDeleteButton={this.props.onDeleteButton}/>);
         lastCategory = property.category;
       });
     }

@@ -67,14 +67,14 @@ export const getProfile = ({userName, token}) =>{
   });
 };
 export const getProperties = ({topic, token}) => {
-  const url = `${host}/topics/${myapp}/${topic}1`;
+  const url = `${host}/topics/${myapp}/${topic}`;
   return commonFetch(url, {
     method: 'GET',
     headers: { 'Content-Type': 'application/json' , 'x-user-token' : token}
   });
 }
 export const postProperty = ({topic, properties, token}) => {
-  const url = `${host}/topics/${myapp}/${topic}1`;
+  const url = `${host}/topics/${myapp}/${topic}`;
   return commonFetch(url, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' , 'x-user-token' : token},
@@ -82,11 +82,11 @@ export const postProperty = ({topic, properties, token}) => {
   });
 }
 export const updateProperty = ({topic, properties, token}) => {
-  const url = `${host}/topics/${myapp}/${topic}1`;
+  const url = `${host}/topics/${myapp}/${topic}`;
   return commonFetch(url, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' , 'x-user-token' : token},
-    body: JSON.stringify( {toStore : properties})
+    body: JSON.stringify( {'toStore' : properties})
   });
 }
 export const removeAProperty = ({topic, token}) => {
@@ -96,10 +96,10 @@ export const removeAProperty = ({topic, token}) => {
     headers: { 'Content-Type': 'application/json' , 'x-user-token' : token}
   });
 }
-/*export const getTopics = (token) => {
+export const getTopics = (token) => {
   const url = `${host}/topics/${myapp}`;
   return commonFetch(url, {
     method: 'GET',
     headers: { 'Content-Type': 'application/json' , 'x-user-token' : token}
   });
-}*/
+}
