@@ -195,7 +195,8 @@ class InventoryList extends React.Component{
                            bath : this.state.bath,
                            sqrt : this.state.sqrt,
                            status : this.state.listingStatus,
-                           category : this.state.propertyType
+                           category : this.state.propertyType,
+                           user : this.props.userName
                            });
           this.setState({propertyUpdate : false});
       }
@@ -212,6 +213,7 @@ class InventoryList extends React.Component{
                                   filterText={this.state.filterText}
                                   selected={this.state.selected}
                                   properties={this.properties}
+                                  currentUser={this.props.userName}
                                   onEditButton={this.handleEditButtonClick}
                                   onDeleteButton={this.handleDeleteButtonClick}/>;
                    <AddButton onAddButton={this.handleAddButtonClick}/>

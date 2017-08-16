@@ -9,6 +9,8 @@ class PropertyRow extends React.Component {
      super(props);
      this.onEdit = this.onEdit.bind(this);
      this.onDelete = this.onDelete.bind(this);
+     this.onFavorite = this.onFavorite.bind(this);
+     this.onScheduleTour = this.onScheduleTour.bind(this);
   }
   onEdit(){
      this.props.onEditButton(this.props.property);
@@ -16,7 +18,21 @@ class PropertyRow extends React.Component {
   onDelete(){
      this.props.onDeleteButton(this.props.property);
   }
+  onFavorite(){
+
+  }
+  onScheduleTour(){
+
+  }
   render() {
+    let buttons='';
+    if(this.props.property.user === this.props.currentUser){
+       buttons = (<td><button className="cellBtn" onClick={this.onEdit}>Edit</button>
+       <button className="cellBtn" onClick={this.onDelete}>Delete</button></td>);
+    }else{
+       buttons = (<td><button className="cellBtn" onClick={this.onFavorite}>Favorite</button>
+       <button className="cellBtn" onClick={this.onScheduleTour}>Schedule tour</button></td>);
+    }
     return (
       <tr>
         <td>{this.props.property.zipcode}</td>
@@ -27,8 +43,7 @@ class PropertyRow extends React.Component {
         <td>{this.props.property.bath}</td>
         <td>{this.props.property.sqrt}</td>
         <td>{this.props.property.status}</td>
-        <td>{<button className="cellBtn" onClick={this.onEdit}>Edit</button>}</td>
-        <td>{<button className="cellBtn" onClick={this.onDelete}>Delete</button>}</td>
+        {buttons}
       </tr>
     );
   }
@@ -58,7 +73,7 @@ class PropertyTable extends React.Component {
         if (property.category !== lastCategory) {
           rows.push(<PropertyCategoryRow category={property.category} key={property.category} />);
         }
-        rows.push(<PropertyRow property={property} onEditButton={this.props.onEditButton} onDeleteButton={this.props.onDeleteButton}/>);
+        rows.push(<PropertyRow property={property} currentUser={this.props.currentUser} onEditButton={this.props.onEditButton} onDeleteButton={this.props.onDeleteButton}/>);
         lastCategory = property.category;
       });
     }
@@ -74,8 +89,8 @@ class PropertyTable extends React.Component {
             <th>Bath</th>
             <th>sq.ft</th>
             <th>status</th>
-            <th>Edit</th>
-            <th>Delete</th>
+            <th></th>
+            <th></th>
           </tr>
         </thead>
         <tbody>{rows}</tbody>

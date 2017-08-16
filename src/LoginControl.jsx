@@ -24,21 +24,19 @@ class LoginControl extends React.Component {
       user : user,
       token : token
     });
-    this.props.onLoginButton(status, token);
+    this.props.onLoginButton(status, user, token);
   }
   render() {
       if(!this.state.isLogin){
          return(
            <div>
              <LoginShow onLoginButton={this.handleLoginStatusChange}/>);
-             <Account isLogin={this.state.isLogin}/>
            </div>
          );
       }else{
          return(
             <div>
                <LogoutShow userName={this.state.user} token={this.state.token} onLogoutButton={this.handleLoginStatusChange}/>
-               <Account isLogin={this.state.isLogin} userName={this.state.user} token={this.state.token}/>
             </div>
          );
       }

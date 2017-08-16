@@ -9,14 +9,16 @@ class InventoryManagement extends React.Component {
       super(props);
       this.state = {
         isLogin : false,
+        user : '',
         token : ''
       };
       this.handleLogin = this.handleLogin.bind(this);
     }
-    handleLogin(isLogin, token) {
+    handleLogin(isLogin, userName, token) {
       this.setState({
         isLogin : isLogin,
-        token : token
+        token : token,
+        user : userName
       });
 
     }
@@ -24,7 +26,8 @@ class InventoryManagement extends React.Component {
     return (
       <div>
         <LoginControl onLoginButton={this.handleLogin}/>
-        <InventoryList isLogin={this.state.isLogin} token={this.state.token}/>
+        <Account isLogin={this.state.isLogin} userName={this.state.user} token={this.state.token}/>
+        <InventoryList isLogin={this.state.isLogin} userName={this.state.user} token={this.state.token}/>
       </div>
     );
   }
