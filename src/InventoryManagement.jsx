@@ -4,6 +4,7 @@ import LoginControl from './LoginControl';
 import Account from './Account';
 import {topics} from './constants';
 import {getProperties} from './ServiceCalls';
+import DropdownMenu from './DropdownMenu';
 class InventoryManagement extends React.Component {
     constructor(props) {
       super(props);
@@ -23,10 +24,11 @@ class InventoryManagement extends React.Component {
 
     }
    render() {
+   //<Account isLogin={this.state.isLogin} userName={this.state.user} token={this.state.token}/>
     return (
       <div>
         <LoginControl onLoginButton={this.handleLogin}/>
-        <Account isLogin={this.state.isLogin} userName={this.state.user} token={this.state.token}/>
+        <DropdownMenu isLogin={this.state.isLogin} userName={this.state.user} token={this.state.token}/>
         <InventoryList isLogin={this.state.isLogin} userName={this.state.user} token={this.state.token}/>
       </div>
     );

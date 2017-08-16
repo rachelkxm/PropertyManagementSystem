@@ -23,17 +23,22 @@ class DropdownMenu extends React.Component{
     }
     handleDropdownClick(){
        this.setState(
-          (preState)=>{
-             show = !preState.show
-          }
+          (preState)=>({
+             show : !preState.show
+          })
        );
     }
     render(){
-      return(
-        <div className="dropdown">
-          <button onClick={this.handleDropdownClick} className="dropbtn">Dropdown</button>
-          <MenuList show={this.state.show}/>
-        </div>
-      );
+      if(this.props.isLogin){
+        return(
+          <div className="dropdown">
+            <button onClick={this.handleDropdownClick} className="dropbtn">{this.props.userName}<i className="fa fa-caret-down"></i></button>
+            <MenuList show={this.state.show}/>
+          </div>
+        );
+      }else{
+         return(<div></div>);
+      }
     }
 }
+export default DropdownMenu;
