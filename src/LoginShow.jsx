@@ -8,6 +8,7 @@ class LoginShow extends React.Component{
         loginOrReg : '',
         userName : '',
         password : '',
+        rePassword : '',
         email : ''
       };
       this.handleLoginButtonClick = this.handleLoginButtonClick.bind(this);
@@ -16,6 +17,7 @@ class LoginShow extends React.Component{
       this.handleFirstNameInput = this.handleFirstNameInput.bind(this);
       this.handleLastNameInput = this.handleLastNameInput.bind(this);
       this.handlePasswordInput = this.handlePasswordInput.bind(this);
+      this.handleRePasswordInput = this.handleRePasswordInput.bind(this);
       this.handleEmailInput = this.handleEmailInput.bind(this);
     }
     handleLoginButtonClick() {
@@ -48,6 +50,11 @@ class LoginShow extends React.Component{
         password : pwd
       });
     }
+    handleRePasswordInput(pwd){
+      this.setState({
+        rePassword : pwd
+      });
+    }
     handleEmailInput(email){
       this.setState({
         email : email
@@ -69,10 +76,12 @@ class LoginShow extends React.Component{
                             firstName={this.state.firstName}
                             lastName={this.state.lastName}
                             email={this.state.email}
+                            rePassword={this.state.rePassword}
                             onUserNameInput={this.handleUserNameInput}
                             onFirstNameInput={this.handleFirstNameInput}
                             onLastNameInput={this.handleLastNameInput}
                             onPasswordInput={this.handlePasswordInput}
+                            onRePasswordInput={this.handleRePasswordInput}
                             onEmailInput={this.handleEmailInput}
                             onSubmit={this.props.onLoginButton}
                             />;

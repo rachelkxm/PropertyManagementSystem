@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import './DropdownMenu.css';
-
+import Account from './Account';
 class MenuList extends React.Component{
   render(){
+  //<Account isLogin={this.props.isLogin} userName={this.props.userName} token={this.props.token}/>
      if(this.props.show){
         return(<div id="myDropdown" className="dropdown-content">
-          <a href="#myProfile">My Profile</a>
+          <Account isLogin={this.props.isLogin} userName={this.props.userName} token={this.props.token}/>
           <a href="#myFavorite">My Favorite</a>
           <a href="#myTour">My Tour</a>
         </div>);
@@ -33,7 +34,7 @@ class DropdownMenu extends React.Component{
         return(
           <div className="dropdown">
             <button onClick={this.handleDropdownClick} className="dropbtn">{this.props.userName}<i className="fa fa-caret-down"></i></button>
-            <MenuList show={this.state.show}/>
+            <MenuList show={this.state.show} isLogin={this.props.isLogin} userName={this.props.userName} token={this.props.token}/>
           </div>
         );
       }else{

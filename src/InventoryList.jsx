@@ -201,12 +201,6 @@ class InventoryList extends React.Component{
           this.setState({propertyUpdate : false});
       }
 
-      /*localProperty.forEach(function(property){
-          property.edit = <button className="cellBtn">Edit</button>
-          property.delete = <button className="cellBtn">Delete</button>
-      });*/
-
-
        return( <div>
                    <SearchBar filterText={this.state.filterText} onFilterInputChange={this.handleFilterInputChange} onSelectStatusChange={this.handleSelectStatusChange}/>
                    <PropertyTable updateTable={this.state.propertyLoaded || this.state.propertyUpdate ||this.state.propertyDelete}

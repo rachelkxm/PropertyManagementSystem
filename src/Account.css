@@ -1,4 +1,4 @@
-.profile{
+/*.profile{
   position: absolute;
   right: 5%;
   top: 220px;
@@ -6,7 +6,8 @@
   padding: 10px;
   text-align: center;
   color: #5a5c51;
-}
+  display: block;
+}*/
 .myProfile{
   width: 90%;
   margin-left: 5%;
