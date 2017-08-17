@@ -37,15 +37,9 @@ class InventoryList extends Component{
           propertyUpdate : false,
           propertyDelete : false,
           propertyLoaded : false,
-          house : true,
-          condo : false,
-          apartment : false,
-          townhouse : false,
-          onsale : true,
-          pending : false,
-          sold : false,
-          outofmarket : false,
-          sort : false
+          sort : false,
+          mode : 'post', //edit or post
+          id : ''
       }
       this.handleFilterInputChange = this.handleFilterInputChange.bind(this);
       this.handleSelectStatusChange = this.handleSelectStatusChange.bind(this);
@@ -96,7 +90,7 @@ class InventoryList extends Component{
        this.setState((preState)=>({sort : !preState.sort}));
     }
     handleAddButtonClick(){
-        /*this.setState({
+        this.setState({
            'zipcode' : '',
            'address' : '',
            'location' : '',
@@ -104,13 +98,13 @@ class InventoryList extends Component{
            'bed' : '',
            'bath' : '',
            'sqft' : ''
-        });*/
-       this.setState({showField : true});
+        });
+       this.setState({showField : true, mode : 'post'});
     }
     handleCancel(){
         this.setState((preState)=>({showField : !preState.showField}));
     }
-    handleEditButtonClick({zipcode, address, location,price, bed, bath, sqft, status}){
+    handleEditButtonClick({zipcode, address, location,price, bed, bath, sqft, status,id}){
         this.setState({
            'zipcode' : zipcode,
            'address' : address,
@@ -118,9 +112,10 @@ class InventoryList extends Component{
            'price' : price,
            'bed' : bed,
            'bath' : bath,
-           'sqft' : sqft
+           'sqft' : sqft,
+           'id' : id
         });
-        this.setState({showField : true});
+        this.setState({showField : true, mode : 'edit'});
     }
     handleDeleteButtonClick(property){
          this.properties.forEach((item,index) =>{
@@ -190,19 +185,35 @@ class InventoryList extends Component{
        this.setState({sqft : sqft});
     }
     handleDoPost(){
-      const zipcode = this.state.zipcode;
-      const address = this.state.address;
-      this.properties.push({ zipcode : zipcode,
-                             address : address,
-                             location : this.state.location,
-                             price : this.state.price,
-                             bed : this.state.bed,
-                             bath : this.state.bath,
-                             sqft : this.state.sqft,
-                             status : this.state.listingStatus,
-                             category : this.state.propertyType,
-                             user : this.props.userName
-                             });
+      if(this.state.mode === 'post'){
+        this.properties.push({ zipcode : this.state.zipcode,
+                               address : this.state.address,
+                               location : this.state.location,
+                               price : this.state.price,
+                               bed : this.state.bed,
+                               bath : this.state.bath,
+                               sqft : this.state.sqft,
+                               status : this.state.listingStatus,
+                               category : this.state.propertyType,
+                               user : this.props.userName,
+                               id : this.properties.length+1
+                               });
+      }else{
+         for(let item of this.properties){
+           if(item.id === this.state.id){
+              item.zipcode = this.state.zipcode;
+              item.address = this.state.address;
+              item.location = this.state.location;
+              item.price = this.state.price;
+              item.bed = this.state.bed;
+              item.bath = this.state.bath;
+              item.sqft = this.state.sqft;
+              item.status = this.state.listingStatus;
+              item.category = this.state.propertyType;
+              break;
+           }
+         }
+      }
        getTopics(this.props.token)
        .then((response) => {
            if(response.topics.indexOf(topics[0])!== -1){

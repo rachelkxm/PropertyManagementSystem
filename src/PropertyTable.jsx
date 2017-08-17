@@ -98,8 +98,8 @@ class PropertyTable extends Component {
     this.sort = !(this.sort);
   }
   render() {
-    var rows = [];
-    var lastCategory = null;
+    const rows = [];
+    let lastCategory = null;
     //sort the property
     if(this.props.properties){
       this.sortByPropertyType();
@@ -118,7 +118,7 @@ class PropertyTable extends Component {
                                currentUser={this.props.currentUser}
                                onEditButton={this.props.onEditButton}
                                onDeleteButton={this.props.onDeleteButton}
-                               key={property.address} />);
+                               key={property.id} />);
         lastCategory = property.category;
       });
 
