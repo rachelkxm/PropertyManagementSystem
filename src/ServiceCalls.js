@@ -1,4 +1,5 @@
-import { host, myapp, mainTopic } from './constants';
+import { host } from './constants';
+import { myapp} from './appkey';
 
 const makeHeaders = (headers)=>{
    const finalHeaders = {};
@@ -82,7 +83,6 @@ export const postProperty = ({topic, properties, token}) => {
   });
 }
 export const updateProperty = ({topic, properties, token}) => {
-  console.log("service call",properties);
   const url = `${host}/topics/${myapp}/${topic}`;
   return commonFetch(url, {
     method: 'PUT',

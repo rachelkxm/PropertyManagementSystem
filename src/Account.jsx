@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { getProfile, updateProfile } from './ServiceCalls';
+import { getProfile, updateProfile } from './serviceCalls';
 import Profile from './Profile';
 import './Account.css';
 
-class ProfileLink extends React.Component{
+class ProfileLink extends Component{
       constructor(props){
          super(props);
          this.showProfile = this.showProfile.bind(this);
@@ -13,12 +13,12 @@ class ProfileLink extends React.Component{
       }
       render(){
          return(<a className="profile"
-                    href="#"
+                    href="#myProfile"
                     onClick={this.showProfile}
                     >My Profile</a>);
       }
 }
-class ProfileDetail extends React.Component{
+class ProfileDetail extends Component{
     constructor(props){
       super(props);
       this.state = {
@@ -86,7 +86,7 @@ class ProfileDetail extends React.Component{
        return(<div></div>);
     }
 }
-class Account extends React.Component{
+class Account extends Component{
     constructor(props){
        super(props);
        this.state = { profile : {}, showDetail : false};

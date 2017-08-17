@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import {login, register, updateProfile, logout} from './ServiceCalls';
-import Profile from './Profile';
-class LoginForm extends React.Component{
+import {login,} from './serviceCalls';
+class LoginForm extends Component{
   constructor(props) {
     super(props);
     this.state = {errorMsg : ''};
@@ -24,7 +23,6 @@ class LoginForm extends React.Component{
              return Promise.reject(response);
           }
           this.props.onSubmit(true,this.props.userName, response.token);
-          console.log(response.token);
       })
       .catch((error) => {
           this.setState({errorMsg: error.error});

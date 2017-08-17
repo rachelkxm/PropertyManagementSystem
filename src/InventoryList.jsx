@@ -1,20 +1,21 @@
 import React, { Component } from 'react';
 import {topics} from './constants';
-import {getProperties, postProperty, updateProperty, getTopics} from './ServiceCalls';
+import {postProperty, updateProperty, getTopics} from './serviceCalls';
 import PropertyField from './PropertyField';
 import PropertyTable from './PropertyTable';
 import SearchBar from './SearchBar';
 import './Inventory.css';
-class AddButton extends React.Component {
+class AddButton extends Component {
     render(){
         return(
            <button className="addBtn" onClick={this.props.onAddButton}>Post a new Property</button>
         );
     }
 }
-class InventoryList extends React.Component{
+class InventoryList extends Component{
     constructor(props) {
       super(props);
+
       this.properties = [];
       this.state = {
           filterText : '',
@@ -50,7 +51,7 @@ class InventoryList extends React.Component{
       this.handleSelectStatusChange = this.handleSelectStatusChange.bind(this);
       this.handleAddButtonClick = this.handleAddButtonClick.bind(this);
       this.handlePropertyTypeChange = this.handlePropertyTypeChange.bind(this);
-      this.handleListingStatusChange = this.handleListingStatusChange.bind(this);
+      //this.handleListingStatusChange = this.handleListingStatusChange.bind(this);
       this.handleZipcodeInput = this.handleZipcodeInput.bind(this);
       this.handleAddressInput = this.handleAddressInput.bind(this);
       this.handleLocationInput = this.handleLocationInput.bind(this);
@@ -95,7 +96,7 @@ class InventoryList extends React.Component{
        this.setState((preState)=>({sort : !preState.sort}));
     }
     handleAddButtonClick(){
-        this.setState({
+        /*this.setState({
            'zipcode' : '',
            'address' : '',
            'location' : '',
@@ -103,7 +104,7 @@ class InventoryList extends React.Component{
            'bed' : '',
            'bath' : '',
            'sqft' : ''
-        });
+        });*/
        this.setState({showField : true});
     }
     handleCancel(){
@@ -150,17 +151,8 @@ class InventoryList extends React.Component{
     }
     handlePropertyTypeChange(propertyType){
        this.setState({propertyType : propertyType});
-       if(propertyType === 'house'){
-           this.setState({house: true, condo: false, apartment : false, townhouse : false});
-       }else if(propertyType === 'condo'){
-           this.setState({house: false, condo: true, apartment : false, townhouse : false});
-       }else if(propertyType === 'apartment'){
-          this.setState({house: false, condo: false, apartment : true, townhouse : false});
-       }else if(propertyType === 'townhouse'){
-          this.setState({house: false, condo: false, apartment : false, townhouse : true});
-       }
     }
-    handleListingStatusChange(listingStatus){
+    /*handleListingStatusChange(listingStatus){
 
       if(listingStatus === 'onsale'){
           this.setState({onsale: true, pending: false, sold : false, outofmarket : false});
@@ -175,7 +167,7 @@ class InventoryList extends React.Component{
          this.setState({onsale: false, pending: false, sold : false, outofmarket : true});
          this.setState({listingStatus : 'Out of Market'});
       }
-    }
+    }*/
     handleZipcodeInput(zipcode){
        this.setState({zipcode : zipcode});
     }
@@ -198,20 +190,22 @@ class InventoryList extends React.Component{
        this.setState({sqft : sqft});
     }
     handleDoPost(){
-      this.properties.push({ zipcode : this.state.zipcode,
-                             address : this.state.address,
+      const zipcode = this.state.zipcode;
+      const address = this.state.address;
+      this.properties.push({ zipcode : zipcode,
+                             address : address,
                              location : this.state.location,
                              price : this.state.price,
                              bed : this.state.bed,
                              bath : this.state.bath,
-                             sqrt : this.state.sqrt,
+                             sqft : this.state.sqft,
                              status : this.state.listingStatus,
                              category : this.state.propertyType,
                              user : this.props.userName
                              });
        getTopics(this.props.token)
        .then((response) => {
-           if(response.topics.indexOf(topics[0])!=-1){
+           if(response.topics.indexOf(topics[0])!== -1){
               updateProperty({'topic' : topics[0], 'properties' : this.properties, 'token' : this.props.token});
            }else{
               postProperty({'topic' : topics[0], 'properties' : this.properties, 'token' : this.props.token});
@@ -222,6 +216,7 @@ class InventoryList extends React.Component{
        });
        this.setState({propertyUpdate : true});
        this.setState({
+          'propertyType' : 'house',
           'zipcode' : '',
           'address' : '',
           'location' : '',
@@ -232,11 +227,11 @@ class InventoryList extends React.Component{
        });
     }
     render(){
-      //fetch()
       if(!this.props.isLogin){ return(
          <div></div>
        );}
-       getProperties({'topic' : topics[0], 'token' : this.props.token})
+       this.properties = this.props.properties;
+       /*getProperties({'topic' : topics[0], 'token' : this.props.token})
        .then((response)=>{
           this.properties = response.details;
           if(!this.state.propertyLoaded){
@@ -244,7 +239,7 @@ class InventoryList extends React.Component{
           }
        })
        .catch((error)=>console.warn(error));
-
+*/
        return( <div>
                    <SearchBar filterText={this.state.filterText} onFilterInputChange={this.handleFilterInputChange} onSelectStatusChange={this.handleSelectStatusChange}/>
                    <PropertyTable updateTable={this.state.propertyLoaded || this.state.propertyUpdate ||this.state.propertyDelete}
@@ -258,8 +253,7 @@ class InventoryList extends React.Component{
                                   onSort={this.handleSort}/>;
                    <AddButton onAddButton={this.handleAddButtonClick}/>
                    <PropertyField showField={this.state.showField}
-                                  propertyType={{house : this.state.house, condo : this.state.condo, apartment : this.state.apartment, townHouse : this.state.townhouse}}
-                                  listingStatus={{onsale : this.state.onsale, pending : this.state.pending, sold : this.state.sold, outofmarket : this.state.outofmarket}}
+                                  propertyType={this.state.propertyType}
                                   zipcode={this.state.zipcode}
                                   address={this.state.address}
                                   location={this.state.location}
@@ -268,7 +262,6 @@ class InventoryList extends React.Component{
                                   bath={this.state.bath}
                                   sqft={this.state.sqft}
                                   onPropertyTypeChange={this.handlePropertyTypeChange}
-                                  onListingStatusChange={this.handleListingStatusChange}
                                   onZipcodeChange={this.handleZipcodeInput}
                                   onAddressChange={this.handleAddressInput}
                                   onLocationChange={this.handleLocationInput}

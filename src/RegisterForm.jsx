@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import {login, register, updateProfile, logout} from './ServiceCalls';
+import {register, updateProfile} from './serviceCalls';
 import Profile from './Profile';
 
-class RegisterForm extends React.Component{
+class RegisterForm extends Component{
   constructor(props) {
     super(props);
     this.state = {errorMsg : ''};
@@ -55,7 +55,6 @@ class RegisterForm extends React.Component{
           }else{
               this.props.onSubmit(true, this.props.userName, response.token);
               updateProfile({userName : this.props.userName, profile : profile, token : response.token});
-              console.log(response.token);
           }
       })
       .catch((error) => {
@@ -101,7 +100,7 @@ class RegisterForm extends React.Component{
                        handlePasswordInput={this.handlePasswordInput}
                        handleRePasswordInput={this.handleRePasswordInput}
                        />
-              <p>By creating an account you agree to our <a href="#">Terms & Privacy</a>.</p>
+              <p>By creating an account you agree to our <a href="#Terms&Privacy">Terms & Privacy</a>.</p>
               <div className="clearfix">
                 <button type="submit" onClick={this.handleSubmit} className="signupbtn">Sign Up</button>
               </div>

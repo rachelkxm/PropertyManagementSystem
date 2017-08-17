@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import {logout} from './ServiceCalls';
-class LogoutShow extends React.Component{
+import {logout} from './serviceCalls';
+class LogoutShow extends Component{
     constructor(props) {
       super(props);
       this.handleLogoutButtonClick = this.handleLogoutButtonClick.bind(this);

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import LoginForm from './LoginForm';
 import RegisterForm from './RegisterForm';
-class LoginShow extends React.Component{
+class LoginShow extends Component{
     constructor(props) {
       super(props);
       this.state = {

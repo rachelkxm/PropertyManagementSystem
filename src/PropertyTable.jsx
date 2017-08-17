@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-class PropertyCategoryRow extends React.Component {
+class PropertyCategoryRow extends Component {
   render() {
     return (<tr className="category"><th colSpan="10">{this.props.category}</th></tr>);
   }
 }
-class PropertyRow extends React.Component {
+class PropertyRow extends Component {
   constructor(props){
      super(props);
      this.onEdit = this.onEdit.bind(this);
@@ -26,7 +26,6 @@ class PropertyRow extends React.Component {
   }
   render() {
     let buttons='';
-    console.log(this.props.property.user);
     if(this.props.property.user === this.props.currentUser){
        buttons = (<td><button className="cellBtn" onClick={this.onEdit}>Edit</button>
        <button className="cellBtn" onClick={this.onDelete}>Delete</button></td>);
@@ -42,25 +41,20 @@ class PropertyRow extends React.Component {
         <td>{this.props.property.price}</td>
         <td>{this.props.property.bed}</td>
         <td>{this.props.property.bath}</td>
-        <td>{this.props.property.sqrt}</td>
+        <td>{this.props.property.sqft}</td>
         <td>{this.props.property.status}</td>
         {buttons}
       </tr>
     );
   }
 }
-class TableHeader extends React.Component {
-  constructor(props){
-     super(props);
-     this.state = {show : 0};
-  }
+class TableHeader extends Component {
   render(){
-
     let indicator = <div></div>
     if(this.props.order===false){
-       indicator = <span show={this.state.show} className="caretup"><i className="fa fa-caret-up"></i></span>;
+       indicator = <span className="caretup"><i className="fa fa-caret-up"></i></span>;
     }else if(this.props.order===true){
-       indicator = <span show={this.state.show} className="caretdown"><i className="fa fa-caret-down"></i></span>;
+       indicator = <span className="caretdown"><i className="fa fa-caret-down"></i></span>;
     }
     return(
       <tr>
@@ -79,10 +73,10 @@ class TableHeader extends React.Component {
   }
 
 }
-class PropertyTable extends React.Component {
+class PropertyTable extends Component {
   constructor(props){
      super(props);
-     //this.sort = true;//true means ascending order, false means descending order
+     this.sort = true;//true means ascending order, false means descending order
      this.properties = this.props.properties;
      this.sortByPropertyType = this.sortByPropertyType.bind(this);
      this.sortByZipcode = this.sortByZipcode.bind(this);
@@ -97,6 +91,7 @@ class PropertyTable extends React.Component {
         }
         return 0;
     });
+    //this.sortByZipcode();
   }
   sortByZipcode(){
     this.props.onSort('zipcode',this.sort);
@@ -106,20 +101,24 @@ class PropertyTable extends React.Component {
     var rows = [];
     var lastCategory = null;
     //sort the property
-    console.log(this.props.properties);
     if(this.props.properties){
       this.sortByPropertyType();
+      const filterText = this.props.filterText;
       this.props.properties.forEach((property) => {
-        if (property.location.indexOf(this.props.filterText) === -1 && property.price.indexOf(this.props.filterText) === -1 &&
-            property.bath.indexOf(this.props.filterText) === -1 && property.bed.indexOf(this.props.filterText) === -1 &&
-            property.sqrt.indexOf(this.props.filterText) === -1 && property.zipCode.indexOf(this.props.filterText) === -1) {
+        if (property.address.indexOf(filterText) === -1 && property.location.indexOf(filterText) === -1 && property.price.indexOf(filterText) === -1 &&
+            property.bath.indexOf(filterText) === -1 && property.bed.indexOf(filterText) === -1 &&
+            property.sqft.indexOf(filterText) === -1 && property.zipcode.indexOf(filterText) === -1) {
           return;
         }
         if(this.props.selected !== 'All' && property.status !== this.props.selected) return;
         if (property.category !== lastCategory) {
           rows.push(<PropertyCategoryRow category={property.category} key={property.category} />);
         }
-        rows.push(<PropertyRow property={property} currentUser={this.props.currentUser} onEditButton={this.props.onEditButton} onDeleteButton={this.props.onDeleteButton}/>);
+        rows.push(<PropertyRow property={property}
+                               currentUser={this.props.currentUser}
+                               onEditButton={this.props.onEditButton}
+                               onDeleteButton={this.props.onDeleteButton}
+                               key={property.address} />);
         lastCategory = property.category;
       });
 

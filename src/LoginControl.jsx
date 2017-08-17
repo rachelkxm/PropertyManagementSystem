@@ -1,14 +1,9 @@
 import React, { Component } from 'react';
-import {login, register, updateProfile, logout} from './ServiceCalls';
-import Account from './Account';
-import Profile from './Profile';
-import LoginForm from './LoginForm';
-import RegisterForm from './RegisterForm';
 import LoginShow from './LoginShow';
 import LogoutShow from './LogoutShow';
 import './Login.css';
 import './Register.css';
-class LoginControl extends React.Component {
+class LoginControl extends Component {
   constructor(props) {
     super(props);
     this.state = {

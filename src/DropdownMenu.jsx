@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './DropdownMenu.css';
 import Account from './Account';
-class MenuList extends React.Component{
+class MenuList extends Component{
   render(){
   //<Account isLogin={this.props.isLogin} userName={this.props.userName} token={this.props.token}/>
      if(this.props.show){
@@ -16,7 +16,7 @@ class MenuList extends React.Component{
   }
 
 }
-class DropdownMenu extends React.Component{
+class DropdownMenu extends Component{
     constructor(props){
        super(props);
        this.state = {show : false};

@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import './PropertyField.css';
-class PropertyField extends React.Component{
+class PropertyField extends Component{
     constructor(props){
       super(props);
       this.state = {errorMsg : ''};
       this.handleDoPost = this.handleDoPost.bind(this);
       this.handlePropertyTypeChange = this.handlePropertyTypeChange.bind(this);
-      this.handleListingStatusChange = this.handleListingStatusChange.bind(this);
       this.handleZipcodeChange = this.handleZipcodeChange.bind(this);
       this.handleAddressChange = this.handleAddressChange.bind(this);
       this.handleLocationChange = this.handleLocationChange.bind(this);
@@ -50,9 +49,9 @@ class PropertyField extends React.Component{
     handlePropertyTypeChange(e){
        this.props.onPropertyTypeChange(e.target.value);
     }
-    handleListingStatusChange(e){
+    /*handleListingStatusChange(e){
        this.props.onListingStatusChange(e.target.value);
-    }
+    }*/
     handleZipcodeChange(e){
       this.props.onZipcodeChange(e.target.value);
     }
@@ -84,18 +83,11 @@ class PropertyField extends React.Component{
        return(
           <div className="propertyField">
             <label><b>Property Type</b></label>
-            <select name='propertyType' onChange={this.handlePropertyTypeChange}>
-              <option value="house" selected={this.props.propertyType.house}>house</option>
-              <option value="condo" selected={this.props.propertyType.condo}>condo</option>
-              <option value="apartment" selected={this.props.propertyType.apartment}>apartment</option>
-              <option value="townhouse" selected={this.props.propertyType.townhouse}>townhouse</option>
-            </select>
-            <label><b>Listing Status</b></label>
-            <select name='listingStatus' onChange={this.handleListingStatusChange}>
-              <option value="onsale" selected={this.props.listingStatus.onsale}>On Sale</option>
-              <option value="pending" selected={this.props.listingStatus.pending}>Pending</option>
-              <option value="sold" selected={this.props.listingStatus.sold}>Sold</option>
-              <option value="outofmarket" selected={this.props.listingStatus.outofmarket}>Out of Market</option>
+            <select name='propertyType' onChange={this.handlePropertyTypeChange} value={this.props.propertyType}>
+              <option value="house">house</option>
+              <option value="condo">condo</option>
+              <option value="apartment">apartment</option>
+              <option value="townhouse">townhouse</option>
             </select><br></br>
             <label><b>ZipCode*</b></label>
             <input type="text" placeholder="Enter Zip Code" name="zipcode" value={this.props.zipcode} onChange={this.handleZipcodeChange}/>
