@@ -31,6 +31,10 @@ class RegisterForm extends React.Component{
           this.setState({errorMsg : 'please enter email'});
           return;
       }
+      if(this.props.email.indexOf('@') === -1){
+          this.setState({errorMsg : 'invalid email'});
+          return;
+      }
       if(!this.props.password || this.props.password.trim() === ''){
           this.setState({errorMsg : 'please enter passwords'});
           return;
@@ -102,7 +106,7 @@ class RegisterForm extends React.Component{
                 <button type="submit" onClick={this.handleSubmit} className="signupbtn">Sign Up</button>
               </div>
               <br></br>
-              <label>{this.state.errorMsg}</label>
+              <label className="errorMsg">{this.state.errorMsg}</label>
             </div>
           </div>
        </div>

@@ -49,7 +49,7 @@ class LoginForm extends React.Component{
              <input type="password" placeholder="Enter Password" name="psw" value={this.props.password} onChange={this.handlePasswordInput} required/>
              <button onClick={this.handleSubmit} type="submit">Login</button>
              <br></br>
-             <label>{this.state.errorMsg}</label>
+             <label className="errorMsg">{this.state.errorMsg}</label>
            </div>
          </div>
        </div>

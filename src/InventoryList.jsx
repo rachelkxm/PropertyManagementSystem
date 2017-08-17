@@ -43,7 +43,8 @@ class InventoryList extends React.Component{
           onsale : true,
           pending : false,
           sold : false,
-          outofmarket : false
+          outofmarket : false,
+          sort : false
       }
       this.handleFilterInputChange = this.handleFilterInputChange.bind(this);
       this.handleSelectStatusChange = this.handleSelectStatusChange.bind(this);
@@ -61,9 +62,49 @@ class InventoryList extends React.Component{
       this.handleEditButtonClick = this.handleEditButtonClick.bind(this);
       this.handleDeleteButtonClick = this.handleDeleteButtonClick.bind(this);
       this.handleCancel = this.handleCancel.bind(this);
+      this.handleSort = this.handleSort.bind(this);
+      this.sortByZipcode = this.sortByZipcode.bind(this);
+    }
+    sortByZipcode(order){
+      if(order){
+        this.properties.sort((property1, property2) => {
+            if(property1.zipcode < property2.zipcode){
+               return -1;
+            }
+            if(property1.zipcode > property2.zipcode){
+               return 1;
+            }
+            return 0;
+        });
+      }else{
+        this.properties.sort((property1, property2) => {
+            if(property1.zipcode < property2.zipcode){
+               return 1;
+            }
+            if(property1.zipcode > property2.zipcode){
+               return -1;
+            }
+            return 0;
+        });
+      }
+    }
+    handleSort(byItem, order){
+       if(byItem==='zipcode'){
+           this.sortByZipcode(order);
+       }
+       this.setState((preState)=>({sort : !preState.sort}));
     }
     handleAddButtonClick(){
-       this.setState((preState)=>({showField : !preState.showField}));
+        this.setState({
+           'zipcode' : '',
+           'address' : '',
+           'location' : '',
+           'price' : '',
+           'bed' : '',
+           'bath' : '',
+           'sqft' : ''
+        });
+       this.setState({showField : true});
     }
     handleCancel(){
         this.setState((preState)=>({showField : !preState.showField}));
@@ -78,7 +119,7 @@ class InventoryList extends React.Component{
            'bath' : bath,
            'sqft' : sqft
         });
-        this.setState((preState)=>({showField : !preState.showField}));
+        this.setState({showField : true});
     }
     handleDeleteButtonClick(property){
          this.properties.forEach((item,index) =>{
@@ -157,10 +198,19 @@ class InventoryList extends React.Component{
        this.setState({sqft : sqft});
     }
     handleDoPost(){
-       this.setState({propertyUpdate : true});
+      this.properties.push({ zipcode : this.state.zipcode,
+                             address : this.state.address,
+                             location : this.state.location,
+                             price : this.state.price,
+                             bed : this.state.bed,
+                             bath : this.state.bath,
+                             sqrt : this.state.sqrt,
+                             status : this.state.listingStatus,
+                             category : this.state.propertyType,
+                             user : this.props.userName
+                             });
        getTopics(this.props.token)
        .then((response) => {
-           console.log(response);
            if(response.topics.indexOf(topics[0])!=-1){
               updateProperty({'topic' : topics[0], 'properties' : this.properties, 'token' : this.props.token});
            }else{
@@ -169,6 +219,16 @@ class InventoryList extends React.Component{
        })
        .catch((error)=>{
           console.log(error);
+       });
+       this.setState({propertyUpdate : true});
+       this.setState({
+          'zipcode' : '',
+          'address' : '',
+          'location' : '',
+          'price' : '',
+          'bed' : '',
+          'bath' : '',
+          'sqft' : ''
        });
     }
     render(){
@@ -182,24 +242,8 @@ class InventoryList extends React.Component{
           if(!this.state.propertyLoaded){
              this.setState({propertyLoaded : true});
           }
-          console.log(this.properties);
        })
        .catch((error)=>console.warn(error));
-
-      if(this.state.propertyUpdate){
-          this.properties.push({zipcode : this.state.zipcode,
-                           address : this.state.address,
-                           location : this.state.location,
-                           price : this.state.price,
-                           bed : this.state.bed,
-                           bath : this.state.bath,
-                           sqrt : this.state.sqrt,
-                           status : this.state.listingStatus,
-                           category : this.state.propertyType,
-                           user : this.props.userName
-                           });
-          this.setState({propertyUpdate : false});
-      }
 
        return( <div>
                    <SearchBar filterText={this.state.filterText} onFilterInputChange={this.handleFilterInputChange} onSelectStatusChange={this.handleSelectStatusChange}/>
@@ -208,15 +252,17 @@ class InventoryList extends React.Component{
                                   selected={this.state.selected}
                                   properties={this.properties}
                                   currentUser={this.props.userName}
+                                  sort={this.state.sort}
                                   onEditButton={this.handleEditButtonClick}
-                                  onDeleteButton={this.handleDeleteButtonClick}/>;
+                                  onDeleteButton={this.handleDeleteButtonClick}
+                                  onSort={this.handleSort}/>;
                    <AddButton onAddButton={this.handleAddButtonClick}/>
                    <PropertyField showField={this.state.showField}
                                   propertyType={{house : this.state.house, condo : this.state.condo, apartment : this.state.apartment, townHouse : this.state.townhouse}}
                                   listingStatus={{onsale : this.state.onsale, pending : this.state.pending, sold : this.state.sold, outofmarket : this.state.outofmarket}}
                                   zipcode={this.state.zipcode}
                                   address={this.state.address}
-                                  locaton={this.state.address}
+                                  location={this.state.location}
                                   price={this.state.price}
                                   bed={this.state.bed}
                                   bath={this.state.bath}

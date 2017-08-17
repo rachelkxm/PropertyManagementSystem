@@ -13,7 +13,7 @@ class Profile extends React.Component{
             <input type="text" placeholder="Enter Last Name" name="last" value={this.props.lastName} onChange={this.props.handleLastNameInput} required/>
 
             <label><b>Email*</b></label>
-            <input type="text" placeholder="Enter Email" name="email" value={this.props.email} onChange={this.props.handleEmailInput} required/>
+            <input type="email" placeholder="Enter Email" name="email" value={this.props.email} onChange={this.props.handleEmailInput} required/>
 
             <label><b>Password*</b></label>
             <input type="password" placeholder="Enter Password" name="psw" value={this.props.password} onChange={this.props.handlePasswordInput} required/>

@@ -24,7 +24,6 @@ class InventoryManagement extends React.Component {
 
     }
    render() {
-   //<Account isLogin={this.state.isLogin} userName={this.state.user} token={this.state.token}/>
     return (
       <div>
         <LoginControl onLoginButton={this.handleLogin}/>

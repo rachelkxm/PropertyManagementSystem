@@ -3,6 +3,7 @@ import './PropertyField.css';
 class PropertyField extends React.Component{
     constructor(props){
       super(props);
+      this.state = {errorMsg : ''};
       this.handleDoPost = this.handleDoPost.bind(this);
       this.handlePropertyTypeChange = this.handlePropertyTypeChange.bind(this);
       this.handleListingStatusChange = this.handleListingStatusChange.bind(this);
@@ -16,7 +17,35 @@ class PropertyField extends React.Component{
       this.handleCancel = this.handleCancel.bind(this);
     }
     handleDoPost(){
-       this.props.onDoPost();
+      if(this.props.zipcode.trim()===''){
+           this.setState({errorMsg : 'please enter zip code'});
+           return;
+      }
+      if(this.props.address.trim()===''){
+           this.setState({errorMsg : 'please enter address'});
+           return;
+      }
+      if(this.props.location.trim()===''){
+           this.setState({errorMsg : 'please enter location'});
+           return;
+      }
+      if(this.props.price.trim()===''){
+           this.setState({errorMsg : 'please enter price'});
+           return;
+      }
+      if(this.props.bed.trim()===''){
+           this.setState({errorMsg : 'please enter number of bed'});
+           return;
+      }
+      if(this.props.bath.trim()===''){
+           this.setState({errorMsg : 'please enter number of bath'});
+           return;
+      }
+      if(this.props.sqft.trim()===''){
+           this.setState({errorMsg : 'please enter sq.ft'});
+           return;
+      }
+      this.props.onDoPost();
     }
     handlePropertyTypeChange(e){
        this.props.onPropertyTypeChange(e.target.value);
@@ -25,7 +54,7 @@ class PropertyField extends React.Component{
        this.props.onListingStatusChange(e.target.value);
     }
     handleZipcodeChange(e){
-       this.props.onZipcodeChange(e.target.value);
+      this.props.onZipcodeChange(e.target.value);
     }
     handleAddressChange(e){
        this.props.onAddressChange(e.target.value);
@@ -68,22 +97,24 @@ class PropertyField extends React.Component{
               <option value="sold" selected={this.props.listingStatus.sold}>Sold</option>
               <option value="outofmarket" selected={this.props.listingStatus.outofmarket}>Out of Market</option>
             </select><br></br>
-            <label><b>ZipCode</b></label>
+            <label><b>ZipCode*</b></label>
             <input type="text" placeholder="Enter Zip Code" name="zipcode" value={this.props.zipcode} onChange={this.handleZipcodeChange}/>
-            <label><b>Address</b></label>
+            <label><b>Address*</b></label>
             <input type="text" placeholder="Enter Address" name="location" value={this.props.address} onChange={this.handleAddressChange}/>
-            <label><b>Location</b></label>
+            <label><b>Location*</b></label>
             <input type="text" placeholder="Enter Location" name="location" value={this.props.location} onChange={this.handleLocationChange}/>
-            <label><b>Price</b></label>
+            <label><b>Price*</b></label>
             <input type="text" placeholder="Enter Price" name="price" value={this.props.price} onChange={this.handlePriceChange}/>
-            <label><b>Bed</b></label>
+            <label><b>Bed*</b></label>
             <input type="text" placeholder="Enter number of bed" name="bed" value={this.props.bed} onChange={this.handleBedChange}/>
-            <label><b>Bath</b></label>
+            <label><b>Bath*</b></label>
             <input type="text" placeholder="Enter number of bath" name="bath" value={this.props.bath} onChange={this.handleBathChange}/>
-            <label><b>sq.ft</b></label>
+            <label><b>sq.ft*</b></label>
             <input type="text" placeholder="Enter sq.ft" name="sqft" value={this.props.sqft} onChange={this.handleSqftChange}/>
             <button onClick={this.handleDoPost}>Do Post</button>
             <button onClick={this.handleCancel}>Cancel</button>
+            <br></br>
+            <label className="errorMsg"><b>{this.state.errorMsg}</b></label>
           </div>);
 
     };
