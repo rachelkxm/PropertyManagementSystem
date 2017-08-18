@@ -237,7 +237,9 @@ class InventoryList extends Component{
             return Promise.reject(response);
         }
         const profile = response.profile;
-        profile.visitedHistory = [];
+        if(!profile.visitedHistory){
+           profile.visitedHistory = [];
+        }
         profile.visitedHistory.push(property);
         updateProfile({userName : this.props.userName, profile : profile, token : this.props.token});
       })

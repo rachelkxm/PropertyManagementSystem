@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './Favorite.css';
-class FavoriteLink extends React.Component{
+class FavoriteLink extends Component{
       constructor(props){
          super(props);
          this.showFavorite = this.showFavorite.bind(this);
@@ -15,10 +15,10 @@ class FavoriteLink extends React.Component{
                     >My Favorite</a>);
       }
 }
-class FavoriteList extends React.Component{
+class FavoriteList extends Component{
     render(){
        return(
-         <ul style="list-style-type:disc">
+         <ul>
             <li>Coffee</li>
             <li>Tea</li>
             <li>Milk</li>
@@ -26,7 +26,19 @@ class FavoriteList extends React.Component{
        );
     }
 }
-class Favorite extends React.Component{
+class Favorite extends Component{
+    constructor(props){
+       super(props);
+       this.state = {showDetail : this.props.showDetail};
+       this.requestProfile = this.requestProfile.bind(this);
+       this.hideDetail = this.hideDetail.bind(this);
+    }
+    hideDetail(){
+       this.setState({showDetail : false});
+    }
+    requestProfile(){
+       this.setState((preState)=>({showDetail : !preState.showDetail}));
+    }
    render(){
      return(
        <div>
