@@ -22,7 +22,7 @@ class PropertyRow extends Component {
 
   }
   onScheduleTour(){
-
+      this.props.onScheduleTour(this.props.property);
   }
   render() {
     let buttons='';
@@ -118,7 +118,8 @@ class PropertyTable extends Component {
                                currentUser={this.props.currentUser}
                                onEditButton={this.props.onEditButton}
                                onDeleteButton={this.props.onDeleteButton}
-                               key={property.id} />);
+                               key={property.id}
+                               onScheduleTour={this.props.onScheduleTour}/>);
         lastCategory = property.category;
       });
 

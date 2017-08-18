@@ -4,6 +4,7 @@ import {postProperty, updateProperty, getTopics} from './serviceCalls';
 import PropertyField from './PropertyField';
 import PropertyTable from './PropertyTable';
 import SearchBar from './SearchBar';
+import {getProfile,updateProfile } from './serviceCalls';
 import './Inventory.css';
 class AddButton extends Component {
     render(){
@@ -45,7 +46,6 @@ class InventoryList extends Component{
       this.handleSelectStatusChange = this.handleSelectStatusChange.bind(this);
       this.handleAddButtonClick = this.handleAddButtonClick.bind(this);
       this.handlePropertyTypeChange = this.handlePropertyTypeChange.bind(this);
-      //this.handleListingStatusChange = this.handleListingStatusChange.bind(this);
       this.handleZipcodeInput = this.handleZipcodeInput.bind(this);
       this.handleAddressInput = this.handleAddressInput.bind(this);
       this.handleLocationInput = this.handleLocationInput.bind(this);
@@ -59,6 +59,8 @@ class InventoryList extends Component{
       this.handleCancel = this.handleCancel.bind(this);
       this.handleSort = this.handleSort.bind(this);
       this.sortByZipcode = this.sortByZipcode.bind(this);
+      this.handleScheduleTour = this.handleScheduleTour.bind(this);
+      this.updateProfile = this.updateProfile.bind(this);
     }
     sortByZipcode(order){
       if(order){
@@ -147,22 +149,6 @@ class InventoryList extends Component{
     handlePropertyTypeChange(propertyType){
        this.setState({propertyType : propertyType});
     }
-    /*handleListingStatusChange(listingStatus){
-
-      if(listingStatus === 'onsale'){
-          this.setState({onsale: true, pending: false, sold : false, outofmarket : false});
-          this.setState({listingStatus : 'On Sale'});
-      }else if(listingStatus === 'pending'){
-          this.setState({onsale: false, pending: true, sold : false, outofmarket : false});
-          this.setState({listingStatus : 'Pending'});
-      }else if(listingStatus === 'sold'){
-         this.setState({onsale: false, pending: false, sold : true, outofmarket : false});
-         this.setState({listingStatus : 'Sold'});
-      }else if(listingStatus === 'outofmarket'){
-         this.setState({onsale: false, pending: false, sold : false, outofmarket : true});
-         this.setState({listingStatus : 'Out of Market'});
-      }
-    }*/
     handleZipcodeInput(zipcode){
        this.setState({zipcode : zipcode});
     }
@@ -237,20 +223,31 @@ class InventoryList extends Component{
           'sqft' : ''
        });
     }
+    handleScheduleTour(property){
+       property.status = 'Pending';
+       updateProperty({'topic' : topics[0], 'properties' : this.properties, 'token' : this.props.token});
+       this.setState({propertyUpdate : true});
+       //add to personal list as well
+       this.updateProfile(property);
+    }
+    updateProfile(property){
+      getProfile({userName : this.props.userName, token : this.props.token})
+      .then((response) => {
+        if( response.error ) {
+            return Promise.reject(response);
+        }
+        const profile = response.profile;
+        profile.visitedHistory = [];
+        profile.visitedHistory.push(property);
+        updateProfile({userName : this.props.userName, profile : profile, token : this.props.token});
+      })
+      .catch((error)=>console.log(error));
+    }
     render(){
       if(!this.props.isLogin){ return(
          <div></div>
        );}
        this.properties = this.props.properties;
-       /*getProperties({'topic' : topics[0], 'token' : this.props.token})
-       .then((response)=>{
-          this.properties = response.details;
-          if(!this.state.propertyLoaded){
-             this.setState({propertyLoaded : true});
-          }
-       })
-       .catch((error)=>console.warn(error));
-*/
        return( <div>
                    <SearchBar filterText={this.state.filterText} onFilterInputChange={this.handleFilterInputChange} onSelectStatusChange={this.handleSelectStatusChange}/>
                    <PropertyTable updateTable={this.state.propertyLoaded || this.state.propertyUpdate ||this.state.propertyDelete}
@@ -261,7 +258,8 @@ class InventoryList extends Component{
                                   sort={this.state.sort}
                                   onEditButton={this.handleEditButtonClick}
                                   onDeleteButton={this.handleDeleteButtonClick}
-                                  onSort={this.handleSort}/>;
+                                  onSort={this.handleSort}
+                                  onScheduleTour={this.handleScheduleTour}/>;
                    <AddButton onAddButton={this.handleAddButtonClick}/>
                    <PropertyField showField={this.state.showField}
                                   propertyType={this.state.propertyType}

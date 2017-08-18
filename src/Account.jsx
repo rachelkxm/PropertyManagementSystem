@@ -103,7 +103,7 @@ class Account extends Component{
            if( response.error ) {
                return Promise.reject(response);
            }
-            this.setState({profile : response.profile, showDetail : true});
+           this.setState({profile : response.profile, showDetail : true});
          })
          .catch((error)=>console.log(error));
        }else{
