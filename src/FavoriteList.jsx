@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import React, { Component } from 'react';
 class FavoriteList extends Component {
     render () {
         const profile = this.props.profile.favorite;

@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import React, { Component } from 'react';
 import './PropertyField.css';
 class PropertyField extends Component {
     constructor (props) {

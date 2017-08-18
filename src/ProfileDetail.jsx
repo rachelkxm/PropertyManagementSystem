@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import React, { Component } from 'react';
 import {updateProfile } from './serviceCalls';
 import Profile from './Profile';
 class ProfileDetail extends Component {

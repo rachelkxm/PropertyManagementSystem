@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import React, { Component } from 'react';
 import './DropdownMenu.css';
 import MenuList from './MenuList';
 import { getProfile} from './serviceCalls';

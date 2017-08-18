@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import React, { Component } from 'react';
 class TourListDetail extends Component {
     render () {
         const profile = this.props.profile.visitedHistory;

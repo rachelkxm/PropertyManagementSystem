@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import React, { Component } from 'react';
 import Account from './Account';
 import Favorite from './Favorite';
 import TourList from './TourList';

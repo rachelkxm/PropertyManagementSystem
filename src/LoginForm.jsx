@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import React, { Component } from 'react';
 import {login} from './serviceCalls';
 class LoginForm extends Component {
     constructor (props) {

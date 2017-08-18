@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import React, { Component } from 'react';
 import LoginShow from './LoginShow';
 import LogoutShow from './LogoutShow';
 import './Login.css';

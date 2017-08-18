@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import React, { Component } from 'react';
 import InventoryList from './InventoryList';
 import LoginControl from './LoginControl';
 import DropdownMenu from './DropdownMenu';

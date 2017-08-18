@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import React, { Component } from 'react';
 import {logout} from './serviceCalls';
 class LogoutShow extends Component {
     constructor (props) {

@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import React, { Component } from 'react';
 import {register, updateProfile} from './serviceCalls';
 import Profile from './Profile';
 

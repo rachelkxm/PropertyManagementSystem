@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import React, { Component } from 'react';
 import TourListLink from './TourListLink';
 import TourListDetail from './TourListDetail';
 

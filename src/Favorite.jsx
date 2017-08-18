@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import React, { Component } from 'react';
 import FavoriteLink from './FavoriteLink';
 import FavoriteList from './FavoriteList';
 class Favorite extends Component {

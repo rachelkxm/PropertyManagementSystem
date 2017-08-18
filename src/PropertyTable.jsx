@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import React, { Component } from 'react';
 import PropertyCategoryRow from './PropertyCategoryRow';
 import PropertyRow from './PropertyRow';
 import TableHeader from './TableHeader';

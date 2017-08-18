@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import React, { Component } from 'react';
 import {topics} from './constants';
 import {postProperty, updateProperty, getTopics, getProfile, updateProfile} from './serviceCalls';
 import PropertyField from './PropertyField';

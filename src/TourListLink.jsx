@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import React, { Component } from 'react';
 
 class TourListLink extends Component {
     constructor (props) {
