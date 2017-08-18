@@ -1,0 +1,14 @@
+select{
+  padding: 14px 20px;
+  margin: 8px 18px;
+  height: 30px;
+  width: 200px;
+  font-size: 14px;
+}
+.propertyField{
+  width: 90%;
+  margin-left: 5%;
+}
+.errorMsg{
+  color:red;
+}

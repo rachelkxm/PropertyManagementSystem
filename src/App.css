@@ -1,0 +1,18 @@
+.App{
+  background-color: #bcd5d1;
+}
+.App-logo {
+  height: 120px;
+}
+
+.App-header {
+  background-color: #1d2120;
+  height: 180px;
+  padding: 20px;
+  color: white;
+  text-align: center;
+}
+
+.App-intro {
+  font-size: large;
+}

@@ -1,0 +1,31 @@
+table{
+  border-collapse: collapse;
+  width: 90%;
+  margin-left: 5%;
+}
+table, th, td {
+    padding: 3px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+th{
+  background-color: #ba9077;
+  color:white;
+}
+.category{
+  background-color: #c2dde6 !important;
+  color:white;
+}
+.cellBtn{
+  background-color: #5a5c51;
+  color: white;
+  padding: 3px 10px;
+  border: none;
+  cursor: pointer;
+  border-radius: 20px;
+  font-size:12px;
+}
+.searchbar, .addBtn{
+  width: 90%;
+  margin-left: 5%;
+}
