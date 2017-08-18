@@ -1,106 +1,106 @@
 import { host } from './constants';
 import { myapp} from './appkey';
 
-const makeHeaders = (headers)=>{
-   const finalHeaders = {};
-   for(const header of ['Content-Type', 'x-user-token']){
-     if(headers[header]) finalHeaders[header] = headers[header];
-   }
-   finalHeaders['Content-Type'] = headers['Content-Type'] || 'application/json';
-   return finalHeaders;
-};
-const commonFetch = (url, options)=>{
-  const headers = makeHeaders(options.headers);
-  const request = {
-    method: options.method || 'GET',
-    headers : headers
-  }
-  if(options.body) request.body = options.body;
-  return fetch(url, request)
-  .then((response) =>{
-    if(response.ok){
-      return response.json();
+const makeHeaders = (headers) => {
+    const finalHeaders = {};
+    for (const header of ['Content-Type', 'x-user-token']) {
+        if (headers[header]) finalHeaders[header] = headers[header];
     }
-     return response.json().then((error) => Promise.reject(error));
-  }).catch((error)=> error);
+    finalHeaders['Content-Type'] = headers['Content-Type'] || 'application/json';
+    return finalHeaders;
+};
+const commonFetch = (url, options) => {
+    const headers = makeHeaders(options.headers);
+    const request = {
+        method: options.method || 'GET',
+        headers: headers
+    };
+    if (options.body) request.body = options.body;
+    return fetch(url, request)
+        .then((response) => {
+            if (response.ok) {
+                return response.json();
+            }
+            return response.json().then((error) => Promise.reject(error));
+        }).catch((error) => error);
 };
 
-export const login = ({userName, password}) =>{
-  const url = `${host}/users/${myapp}/${userName}/session`;
-  return commonFetch(url, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify( { password: password })
-  });
+export const login = ({userName, password}) => {
+    const url = `${host}/users/${myapp}/${userName}/session`;
+    return commonFetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password: password })
+    });
 };
 
 export const logout = ({userName, token}) => {
-  const url = `${host}/users/${myapp}/${userName}/session`;
-  return commonFetch(url, {
-    method: 'DELETE',
-    headers: { 'Content-Type': 'application/json', 'x-user-token' : token },
-  });
-}
-export const register = ({userName, password}) =>{
-  const url = `${host}/users/${myapp}/${userName}`;
-  // const url = `${host}/users/${myapp}/${userName}/profile`;
-  return commonFetch(url, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify( { password: password })
-  });
+    const url = `${host}/users/${myapp}/${userName}/session`;
+    return commonFetch(url, {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json', 'x-user-token': token }
+    });
+};
+export const register = ({userName, password}) => {
+    const url = `${host}/users/${myapp}/${userName}`;
+    // const url = `${host}/users/${myapp}/${userName}/profile`;
+    return commonFetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password: password })
+    });
 };
 
-export const updateProfile = ({userName, profile, token}) =>{
-  const url = `${host}/users/${myapp}/${userName}/profile`;
-  return commonFetch(url, {
-    method: 'PUT',
-    headers: { 'Content-Type': 'application/json' , 'x-user-token' : token},
-    body: JSON.stringify( { toStore: profile })
-  });
+export const updateProfile = ({userName, profile, token}) => {
+    const url = `${host}/users/${myapp}/${userName}/profile`;
+    return commonFetch(url, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json', 'x-user-token': token},
+        body: JSON.stringify({ toStore: profile })
+    });
 };
 
-export const getProfile = ({userName, token}) =>{
-  const url = `${host}/users/${myapp}/${userName}/profile`;
-  return commonFetch(url, {
-    method: 'GET',
-    headers: { 'Content-Type': 'application/json' , 'x-user-token' : token}
-  });
+export const getProfile = ({userName, token}) => {
+    const url = `${host}/users/${myapp}/${userName}/profile`;
+    return commonFetch(url, {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json', 'x-user-token': token}
+    });
 };
 export const getProperties = ({topic, token}) => {
-  const url = `${host}/topics/${myapp}/${topic}`;
-  return commonFetch(url, {
-    method: 'GET',
-    headers: { 'Content-Type': 'application/json' , 'x-user-token' : token}
-  });
-}
+    const url = `${host}/topics/${myapp}/${topic}`;
+    return commonFetch(url, {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json', 'x-user-token': token}
+    });
+};
 export const postProperty = ({topic, properties, token}) => {
-  const url = `${host}/topics/${myapp}/${topic}`;
-  return commonFetch(url, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' , 'x-user-token' : token},
-    body: JSON.stringify({'toStore' : properties})
-  });
-}
+    const url = `${host}/topics/${myapp}/${topic}`;
+    return commonFetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'x-user-token': token},
+        body: JSON.stringify({'toStore': properties})
+    });
+};
 export const updateProperty = ({topic, properties, token}) => {
-  const url = `${host}/topics/${myapp}/${topic}`;
-  return commonFetch(url, {
-    method: 'PUT',
-    headers: { 'Content-Type': 'application/json' , 'x-user-token' : token},
-    body: JSON.stringify( {'toStore' : properties})
-  });
-}
+    const url = `${host}/topics/${myapp}/${topic}`;
+    return commonFetch(url, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json', 'x-user-token': token},
+        body: JSON.stringify({'toStore': properties})
+    });
+};
 export const removeAProperty = ({topic, token}) => {
-  const url = `${host}/topics/${myapp}/${topic}`;
-  return commonFetch(url, {
-    method: 'DELETE',
-    headers: { 'Content-Type': 'application/json' , 'x-user-token' : token}
-  });
-}
+    const url = `${host}/topics/${myapp}/${topic}`;
+    return commonFetch(url, {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json', 'x-user-token': token}
+    });
+};
 export const getTopics = (token) => {
-  const url = `${host}/topics/${myapp}`;
-  return commonFetch(url, {
-    method: 'GET',
-    headers: { 'Content-Type': 'application/json' , 'x-user-token' : token}
-  });
-}
+    const url = `${host}/topics/${myapp}`;
+    return commonFetch(url, {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json', 'x-user-token': token}
+    });
+};
