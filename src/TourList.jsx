@@ -19,13 +19,11 @@ class TourListLink extends Component{
 class TourListDetail extends React.Component{
     render(){
        const profile = this.props.profile.visitedHistory;
-       console.log(profile);
-       const itemList = <div></div>;
        let output = <div>Empty tour, please schedule a tour</div>;
        if(!this.props.showDetail) return(<div></div>);
        if(profile && profile.length>0){
          output = profile.map(function(p){
-              return <li>address : {p.address}
+              return <li key={p.id}>address : {p.address}
                          <ul>
                            <li>zipcode : {p.zipcode}</li>
                            <li>location : {p.location}</li>

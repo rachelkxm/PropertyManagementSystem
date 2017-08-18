@@ -11,6 +11,7 @@ class PropertyRow extends Component {
      this.onDelete = this.onDelete.bind(this);
      this.onFavorite = this.onFavorite.bind(this);
      this.onScheduleTour = this.onScheduleTour.bind(this);
+     this.onFavorite = this.onFavorite.bind(this);
   }
   onEdit(){
      this.props.onEditButton(this.props.property);
@@ -18,11 +19,11 @@ class PropertyRow extends Component {
   onDelete(){
      this.props.onDeleteButton(this.props.property);
   }
-  onFavorite(){
-
-  }
   onScheduleTour(){
       this.props.onScheduleTour(this.props.property);
+  }
+  onFavorite(){
+      this.props.onFavorite(this.props.property);
   }
   render() {
     let buttons='';
@@ -119,7 +120,8 @@ class PropertyTable extends Component {
                                onEditButton={this.props.onEditButton}
                                onDeleteButton={this.props.onDeleteButton}
                                key={property.id}
-                               onScheduleTour={this.props.onScheduleTour}/>);
+                               onScheduleTour={this.props.onScheduleTour}
+                               onFavorite={this.props.onFavorite}/>);
         lastCategory = property.category;
       });
 

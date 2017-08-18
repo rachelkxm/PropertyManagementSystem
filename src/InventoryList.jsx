@@ -6,17 +6,9 @@ import PropertyTable from './PropertyTable';
 import SearchBar from './SearchBar';
 import {getProfile,updateProfile } from './serviceCalls';
 import './Inventory.css';
-class AddButton extends Component {
-    render(){
-        return(
-           <button className="addBtn" onClick={this.props.onAddButton}>Post a new Property</button>
-        );
-    }
-}
 class InventoryList extends Component{
     constructor(props) {
       super(props);
-
       this.properties = [];
       this.state = {
           filterText : '',
@@ -61,6 +53,7 @@ class InventoryList extends Component{
       this.sortByZipcode = this.sortByZipcode.bind(this);
       this.handleScheduleTour = this.handleScheduleTour.bind(this);
       this.updateProfile = this.updateProfile.bind(this);
+      this.handleFavorite = this.handleFavorite.bind(this);
     }
     sortByZipcode(order){
       if(order){
@@ -223,24 +216,28 @@ class InventoryList extends Component{
           'sqft' : ''
        });
     }
+    handleFavorite(property){
+       //add to personal list
+       this.updateProfile(property,"favorite");
+    }
     handleScheduleTour(property){
        property.status = 'Pending';
        updateProperty({'topic' : topics[0], 'properties' : this.properties, 'token' : this.props.token});
        this.setState({propertyUpdate : true});
        //add to personal list as well
-       this.updateProfile(property);
+       this.updateProfile(property,"visitedHistory");
     }
-    updateProfile(property){
+    updateProfile(property,field){
       getProfile({userName : this.props.userName, token : this.props.token})
       .then((response) => {
         if( response.error ) {
             return Promise.reject(response);
         }
         const profile = response.profile;
-        if(!profile.visitedHistory){
-           profile.visitedHistory = [];
+        if(!profile[field]){
+           profile[field] = [];
         }
-        profile.visitedHistory.push(property);
+        profile[field].push(property);
         updateProfile({userName : this.props.userName, profile : profile, token : this.props.token});
       })
       .catch((error)=>console.log(error));
@@ -261,8 +258,9 @@ class InventoryList extends Component{
                                   onEditButton={this.handleEditButtonClick}
                                   onDeleteButton={this.handleDeleteButtonClick}
                                   onSort={this.handleSort}
-                                  onScheduleTour={this.handleScheduleTour}/>;
-                   <AddButton onAddButton={this.handleAddButtonClick}/>
+                                  onScheduleTour={this.handleScheduleTour}
+                                  onFavorite={this.handleFavorite}/>;
+                   <button className="addBtn" onClick={this.handleAddButtonClick}>Post a new Property</button>
                    <PropertyField showField={this.state.showField}
                                   propertyType={this.state.propertyType}
                                   zipcode={this.state.zipcode}

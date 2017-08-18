@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { getProfile, updateProfile } from './serviceCalls';
+import {updateProfile } from './serviceCalls';
 import Profile from './Profile';
 class ProfileDetail extends Component{
     constructor(props){

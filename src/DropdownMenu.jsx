@@ -25,7 +25,7 @@ class DropdownMenu extends Component{
             return Promise.reject(response);
         }
         this.profile = response.profile;
-        this.setState({showDetail : true});
+        this.setState({showDetail : false});
       })
       .catch((error)=>console.log(error));
     }

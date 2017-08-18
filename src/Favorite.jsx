@@ -17,12 +17,26 @@ class FavoriteLink extends Component{
 }
 class FavoriteList extends Component{
     render(){
+       const profile = this.props.profile.favorite;
+       let output = <div>Empty favorite, please add you favorite one</div>;
+       if(!this.props.showDetail) return(<div></div>);
+       if(profile && profile.length>0){
+         output = profile.map(function(p){
+              return <li key={p.id}>address : {p.address}
+                         <ul>
+                           <li>zipcode : {p.zipcode}</li>
+                           <li>location : {p.location}</li>
+                           <li>price : {p.price}</li>
+                           <li>bed : {p.bed}</li>
+                           <li>bath : {p.bath}</li>
+                           <li>sqft : {p.sqft}</li>
+                         </ul>
+                     </li>
+         });
+       }
        return(
-         <ul>
-            <li>Coffee</li>
-            <li>Tea</li>
-            <li>Milk</li>
-         </ul>
+          <ul className="width100">{output}
+          </ul>
        );
     }
 }
@@ -30,20 +44,22 @@ class Favorite extends Component{
     constructor(props){
        super(props);
        this.state = {showDetail : this.props.showDetail};
-       this.requestProfile = this.requestProfile.bind(this);
+       this.showFavorite = this.showFavorite.bind(this);
        this.hideDetail = this.hideDetail.bind(this);
     }
     hideDetail(){
        this.setState({showDetail : false});
     }
-    requestProfile(){
+    showFavorite(){
        this.setState((preState)=>({showDetail : !preState.showDetail}));
     }
    render(){
      return(
        <div>
-         <FavoriteLink/>
-         <FavoriteList/>
+         <FavoriteLink onFavoriteClick={this.showFavorite}/>
+         <FavoriteList showDetail={this.state.showDetail}
+                         profile={this.props.profile}
+                         onSubmit={this.hideDetail}/>
        </div>
      );
    }
