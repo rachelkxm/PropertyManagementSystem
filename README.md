@@ -1,4 +1,4 @@
-Inventory Management System including three parts: user login/register, user profile(personal information, favorite list, tour list) and property list.
+Property Management System including three parts: user login/register, user profile(personal information, favorite list, tour list) and property list.
 Login/register is required to use the system.
 Every one can post/edit/delete properties(house, condo, apartment, townhouse).
 Also, everyone can view others' posts and add them into favorite list or make a tour for a property and all the visited properties will show in your personal settings.
